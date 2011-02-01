@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="stories" type="stories"/>
+  <xs:complexType name="stories">
+    <xs:sequence>
+      <xs:element type="story" name="story" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="singleTest" mixed="true">
+    <xs:sequence>
+      <xs:element type="errorlog" name="errorlog" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="package" use="required"/>
+    <xs:attribute type="xs:string" name="class" use="required"/>
+    <xs:attribute type="xs:string" name="method" use="required"/>
+    <xs:attribute type="xs:string" name="success" use="required"/>
+    <xs:attribute type="xs:string" name="done" use="required"/>
+    <xs:attribute type="xs:string" name="executiontime" use="required"/>
+    <xs:attribute type="xs:string" name="comment" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="errorlog">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="exception"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="story" mixed="true">
+    <xs:sequence >
+      <xs:element type="singleTest" name="singleTest" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="required"/>
+    <xs:attribute type="xs:string" name="text" use="required"/>
+    <xs:attribute type="xs:string" name="iteration" use="required"/>
+    <xs:attribute type="xs:string" name="comment" use="optional"/>
+  </xs:complexType>
+</xs:schema>

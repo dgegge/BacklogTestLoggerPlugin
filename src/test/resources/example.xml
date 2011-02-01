@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<stories>
+  <story id="123" text="Als Redakteur kann ich ..." iteration="11.1" comment="bla bla">
+      <singleTest package="com.coremedia" class="util" method="test" success="true" done="false" executiontime="11.11" comment="blabla"/>
+      <singleTest package="com.coremedia" class="util" method="nochEinTest" success="true" done="true" executiontime="11.11"/>
+  </story>
+  <story id="124" text="Ich kann auch..." iteration="11.2" comment="bla bla">
+      <singleTest package="com.coremedia" class="util" method="test" success="true" done="false" executiontime="11.11"/>
+      <singleTest package="com.coremedia" class="util" method="tollerTest" success="false" done="true" executiontime="11.11">
+        <errorlog exception="org.sun.java.Exception">aasdfhj aadljhfa</errorlog>
+      </singleTest>
+  </story>
+  <story id="125" text="Außerdem kann ich" iteration="11.9" comment="bla bla">
+  </story>
+</stories>

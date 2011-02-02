@@ -25,6 +25,26 @@ import java.util.*;
  */
 public class BacklogTestLoggerPublisher extends HealthPublisher implements MatrixAggregatable {
 
+  public String getName() {
+    return name;
+  }
+
+  public String getThreshold() {
+    return threshold;
+  }
+
+  public String getHealthy() {
+    return healthy;
+  }
+
+  public String getUnhealthy() {
+    return unhealthy;
+  }
+
+  public String getMetrics() {
+    return metrics;
+  }
+
   private String name;
   private String threshold;
   private String healthy;
@@ -106,6 +126,12 @@ public class BacklogTestLoggerPublisher extends HealthPublisher implements Matri
      * Define if we must parse multiple file by searching for , in the name
      * var
      */
+
+    if (name == null || name.length() < 1) {
+      logger.println("[BacklogTestLogger] no reports configured to be analyzed ");
+      return false;
+    }
+
     String[] files = name.split(",");
     if (files.length > 1) {
       logger.println("[CapsAnalysis] Multiple reports detected.");

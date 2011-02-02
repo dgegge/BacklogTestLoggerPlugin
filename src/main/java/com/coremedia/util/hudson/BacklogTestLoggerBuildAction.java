@@ -7,6 +7,7 @@ import com.coremedia.util.model.pojo.StoryState;
 import hudson.model.AbstractBuild;
 import hudson.model.Result;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URI;
@@ -78,9 +79,11 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
       logger.println("[BacklogTestLogger] Metric : " + metric_name);
     }
 
+    
 
-    for (int i = 0; i < files.size(); i++) {
-      String current_report = files.get(i);
+
+    for (String file : files) {
+      String current_report = file;
       URI is;
       try {
         is = build.getWorkspace().child(current_report).toURI();

@@ -11,7 +11,7 @@
 
   <groupId>com.coremedia.util</groupId>
   <artifactId>backlogtestlogger</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>hpi</packaging>  
 
   <repositories>

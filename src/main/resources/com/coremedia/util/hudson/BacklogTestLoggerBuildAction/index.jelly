@@ -276,7 +276,7 @@
                     <j:if test="${test.done == 'false'}">
                       <tr bgcolor="FFFF00">
                         <td>
-                          <a class="info_bulle">${test.adaptedName}</a>
+                          <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
                       </tr>
                     </j:if>
@@ -284,7 +284,7 @@
                     <j:if test="${test.done == 'true'}">
                       <tr bgcolor="00FF00">
                         <td>
-                          <a class="info_bulle">${test.adaptedName}</a>
+                          <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
                       </tr>
 
@@ -294,7 +294,7 @@
                   <j:if test="${test.success == 'false'}">
                     <tr bgcolor="FF0000">
                       <td>
-                        <a class="info_bulle">${test.adaptedName}</a>
+                        <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                       </td>
                     </tr>
 
@@ -310,7 +310,7 @@
                       <tr bgcolor="FF0000">
                         <td>
 
-                        <a class="errorlog">${test.shortenedError}</a>
+                          <a class="errorlog">${test.shortenedError}</a>
 
                         </td>
                       </tr>
@@ -367,7 +367,7 @@
                     <j:if test="${test.done == 'false'}">
                       <tr bgcolor="FFFF00">
                         <td>
-                          <a class="info_bulle">${test.adaptedName}</a>
+                          <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
                       </tr>
                     </j:if>
@@ -375,7 +375,7 @@
                     <j:if test="${test.done == 'true'}">
                       <tr bgcolor="00FF00">
                         <td>
-                          <a class="info_bulle">${test.adaptedName}</a>
+                          <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
                       </tr>
 

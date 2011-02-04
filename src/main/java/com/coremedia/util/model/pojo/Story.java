@@ -191,4 +191,19 @@ public class Story {
     return this.state;
   }
 
+  /**
+   * gets SingleTest with handled full name (classname.methodname)
+   * @param name
+   * @return
+   */
+  public SingleTest getTestWithName(String name) {
+    for (SingleTest test : this.getTests()) {
+      if (test.getTestname().equalsIgnoreCase(name)) {
+        return test;
+      }
+    }
+
+    return null;
+  }
+
 }

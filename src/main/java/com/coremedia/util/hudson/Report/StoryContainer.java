@@ -137,4 +137,15 @@ public class StoryContainer {
 
     return Helper.floor(sumExecutionTime/count,2);
   }
+
+  public SingleTest getTestWithName(String aVoid) {
+    for (Story story : this.getStories()) {
+      for (SingleTest test : story.getTests()) {
+        if (aVoid.equals(test.getClazz()+"."+test.getMethod())) {
+          return test;
+        }
+      }
+    }
+    return null;
+  }
 }

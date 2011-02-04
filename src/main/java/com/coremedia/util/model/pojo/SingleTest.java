@@ -63,9 +63,11 @@ public class SingleTest {
   @XmlAttribute
   protected String comment;
 
-
   @XmlTransient
   protected Errorlog error;
+
+  @XmlTransient
+  protected List<Story> affectedStories = new ArrayList<Story>();
 
   public Errorlog getError() {
     return error;
@@ -275,4 +277,35 @@ public class SingleTest {
     return result.toString();
   }
 
+  public String getTestname() {
+    return this.getClazz() + "." + this.getMethod();
+  }
+
+  public String getNameForUrl() {
+    String name = clazz + "." + method;
+    String result = name.replace("/", "..");
+    return result;
+  }
+
+  public static String resolveTestNameInUrl(String testName) {
+    String result = testName.replace("/", "..");
+    return result;
+  }
+
+  /*public void setAffectedStories(final List<Story> stories) {
+    this.affectedStories = new ArrayList<Story>();
+    for (Story story : stories) {
+      if (story.getTestWithName(this.getTestname()) != null) {
+        this.affectedStories.add(story);
+      }
+    }
+  }*/
+
+  public void addStoryToTest(Story story) {
+    this.affectedStories.add(story);    
+  }
+
+  public List<Story> getAffectedStories() {
+    return affectedStories;
+  }
 }

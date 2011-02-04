@@ -2,16 +2,20 @@ package com.coremedia.util.hudson;
 
 import com.coremedia.util.hudson.Report.StoryContainer;
 import com.coremedia.util.hudson.Report.TrendReport;
+import com.coremedia.util.model.pojo.SingleTest;
 import com.coremedia.util.model.pojo.Story;
 import com.coremedia.util.model.pojo.StoryState;
 import hudson.model.AbstractBuild;
 import hudson.model.Result;
+import org.apache.commons.lang.StringUtils;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +33,8 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
   private List<Story> successedStories = new ArrayList<Story>();
   private List<Story> incompletedStories = new ArrayList<Story>();
   private List<Story> untestedStories = new ArrayList<Story>();
+
+  private Map<String,SingleTest> tests = new HashMap<String,SingleTest>();
 
   /**
    * Parameters for the health report.
@@ -79,8 +85,6 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
       logger.println("[BacklogTestLogger] Metric : " + metric_name);
     }
 
-    
-
 
     for (String file : files) {
       String current_report = file;
@@ -93,6 +97,8 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
         ReportReader rs = new ReportReader(is, logger, metrics);
 
         this.stories.getStories().addAll(StoryContainer.calculateStates(rs.getStories()));
+
+        makeAllocationTestsToStories(this.stories.getStories());
 
         allocateStories(this.stories.getStories());
 
@@ -193,6 +199,23 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
    */
   public HealthDescriptor getHealthDescriptor() {
     return healthDescriptor;
+  }
+
+  private void makeAllocationTestsToStories(List<Story> stories) {
+    for (Story story :stories) {
+      for (SingleTest test : story.getTests()) {
+        SingleTest singleTest = tests.get(test.getTestname());
+
+        if (singleTest == null) {
+          singleTest = test;
+        }
+
+        singleTest.addStoryToTest(story);
+
+        tests.put(test.getTestname(),singleTest);
+
+      }
+    }
   }
 
   private void allocateStories(List<Story> stories) {
@@ -333,6 +356,25 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     strbuilder.append("</div>");
     return strbuilder.toString();
 
+  }
+
+  /**
+   * Returns the dynamic result
+   *
+   * @param link     the link to identify the sub page to show
+   * @param request  Stapler request
+   * @param response Stapler response
+   * @return the dynamic result of the analysis.
+   */
+  public Object getDynamic(final String link, final StaplerRequest request,
+                           final StaplerResponse response) {
+
+    Object resultat = null;
+    if (link.startsWith("testDetails.")) {
+      String testName = StringUtils.substringAfter(link, "testDetails.");
+      resultat = new SingleTestDetails(getOwner(), stories.getTestWithName(SingleTest.resolveTestNameInUrl(testName)));
+    }
+    return resultat;
   }
 
 }

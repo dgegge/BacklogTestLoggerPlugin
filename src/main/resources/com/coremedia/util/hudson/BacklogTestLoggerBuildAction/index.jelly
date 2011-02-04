@@ -178,127 +178,6 @@
 
             </tr>
           </table>
-          <!--<table>
-            <tr>
-              <td style="width:55%; text-align:left;">
-                <strong>Analysis points</strong>
-              </td>
-              <td style="width:15%;">
-                <strong>N.Measures</strong>
-              </td>
-              <td style="width:15%;">
-                <strong>Average</strong>
-              </td>
-              <td style="width:15%;">
-                <strong>Trend</strong>
-              </td>
-            </tr>
-            <tr>
-              <td style="text-align:left;">Execution time</td>
-              <td>${it.numberOfExecutionTimeTest}</td>
-              <td>${it.averageOfExecutionTime}</td>
-              <td>
-                <j:if test="${it.trendReport.averageOfExecutionTimeHasIncrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_up_red.gif" alt="UP"/>
-                </j:if>
-                <j:if test="${it.trendReport.averageOfExecutionTimeHasDecrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_down_green.gif" alt="DOWN"/>
-                </j:if>
-                <j:if test="${it.trendReport.averageOfExecutionTimeStable}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
-                </j:if>
-              </td>
-            </tr>
-            ${it.htmlMetricTable}
-          </table>-->
-          <!--<table style="border:0px;">
-            <tr>
-              <td style="width:55%; text-align:left;">
-                <strong>Tests history</strong>
-              </td>
-              <td style="width:15%;">
-                <strong>Number</strong>
-              </td>
-              <td style="width:15%;">
-                <strong>Percent</strong>
-              </td>
-              <td style="width:15%;"></td>
-            </tr>
-            <tr>
-              <td style="text-align:left;">
-                <a href="newTestsDetails.all">
-                  <img border="0" src="/plugin/backlogtestlogger/icons/flag_blue.png"
-                       alt="New tests"/>
-                </a>
-                <strong>
-                  <a style="color:#555"
-                     href="newTestsDetails.all">New
-                    tests
-                  </a>
-                </strong>
-              </td>
-              <td>${it.numberOfNewTests}</td>
-              <td>${it.percentOfNewTests}%</td>
-              <td>
-
-              </td>
-            </tr>
-            <tr>
-              <td style="text-align:left;">
-                <a href="deletedTestsDetails.all">
-                  <img border="0" src="/plugin/backlogtestlogger/icons/flag_red.png"
-                       alt="Deleted tests"/>
-                </a>
-                <strong>
-                  <a style="color:#555"
-                     href="deletedTestsDetails.all">Deleted
-                    tests
-                  </a>
-                </strong>
-              </td>
-              <td>${it.numberOfDeletedTests}</td>
-              <td>${it.percentOfDeletedTests}%</td>
-              <td>
-
-              </td>
-            </tr>
-            <tr>
-              <td style="text-align:left;">
-                <a href="statusChangedTestsDetails.all">
-                  <img border="0" src="/plugin/backlogtestlogger/icons/flag_pink.png"
-                       alt="Changed tests"/>
-                </a>
-                <strong>
-                  <a style="color:#555"
-                     href="statusChangedTestsDetails.all">Execution
-                    Changed status tests
-                  </a>
-                </strong>
-              </td>
-              <td>${it.numberOfExecutionStatusChangedTests}</td>
-              <td>${it.percentOfExecutionStatusChangedTests}%</td>
-              <td>
-
-              </td>
-            </tr>
-            <tr>
-              <td style="text-align:left;">
-                <a href="statusChangedTestsDetails.all">
-                  <img border="0" src="/plugin/backlogtestlogger/icons/flag_yellow.png" alt="Changed tests"/>
-                </a>
-                <strong>
-                  <a style="color:#555" href="statusChangedTestsDetails.all">Success Changed status
-                    tests
-                  </a>
-                </strong>
-              </td>
-              <td>${it.numberOfSuccessStatusChangedTests}</td>
-              <td>${it.percentOfSuccessStatusChangedTests}%</td>
-              <td>
-
-              </td>
-            </tr>
-          </table>-->
         </div>
 
         <br style="clear: left;"/>
@@ -330,7 +209,7 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr bgcolor="00FF00">
                     <td>
-                      <a class="info_bulle">${test.adaptedName}</a>
+                      <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                     </td>
                   </tr>
                 </j:forEach>

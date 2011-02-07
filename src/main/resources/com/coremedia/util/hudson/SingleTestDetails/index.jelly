@@ -1,0 +1,153 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+         xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+         xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+  <l:layout norefresh="true">
+    <!-- TODO: Lookup, why sidepanel is not found
+    <st:include it="${it.owner}" page="sidepanel.jelly" from="${it.owner}"/>
+    -->
+    <st:include page="/tabview/css3.jelly"/>
+    <l:main-panel>
+
+      <div class="entete">
+        # ${it.test.clazz}.${it.test.method}
+      </div>
+
+      <h1>Affected Stories</h1>
+
+      <table style="padding:1px;" border="1px" class="pane sortable">
+        <tr>
+          <td class="pane-header" title="Targets">Story Id</td>
+          <td class="pane-header" title="text">Iteration</td>
+          <td class="pane-header" title="text">Story Text</td>
+          <td class="pane-header" title="Success State">Test Success State</td>
+          <td class="pane-header" title="Done status">Test Done State</td>
+        </tr>
+
+        <j:forEach indexVar="index_story" var="story" items="${it.test.affectedStories}">
+          <j:if test="${story.state == 'SUCCESS'}">
+            <tr bgcolor="00FF00">
+              <td>${story.id}</td>
+              <td>${story.iteration}</td>
+              <td>${story.text}</td>
+              <td>
+                <table>
+                  <tr>
+                    <j:if test="${it.test.success == 'false'}">
+                      <tr bgcolor="FF0000">
+                        <td>${it.test.success}</td>
+                      </tr>
+                    </j:if>
+                    <j:if test="${it.test.success == 'true'}">
+                      <tr bgcolor="00FF00">
+                        <td>${it.test.success}</td>
+                      </tr>
+                    </j:if>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <table>
+                  <tr>
+                    <j:if test="${it.test.done == 'false'}">
+                      <tr bgcolor="FFFF00">
+                        <td>${it.test.done}</td>
+                      </tr>
+                    </j:if>
+                    <j:if test="${it.test.done == 'true'}">
+                      <tr bgcolor="00FF00">
+                        <td>${it.test.done}</td>
+                      </tr>
+                    </j:if>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </j:if>
+
+          <j:if test="${story.state == 'FAILED'}">
+            <tr bgcolor="FF0000">
+              <td>${story.id}</td>
+              <td>${story.iteration}</td>
+              <td>${story.text}</td>
+              <td>
+                <table>
+                  <tr>
+                    <j:if test="${it.test.success == 'false'}">
+                      <tr bgcolor="FF0000">
+                        <td>${it.test.success}</td>
+                      </tr>
+                    </j:if>
+                    <j:if test="${it.test.success == 'true'}">
+                      <tr bgcolor="00FF00">
+                        <td>${it.test.success}</td>
+                      </tr>
+                    </j:if>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <table>
+                  <tr>
+                    <j:if test="${it.test.done == 'false'}">
+                      <tr bgcolor="FFFF00">
+                        <td>${it.test.done}</td>
+                      </tr>
+                    </j:if>
+                    <j:if test="${it.test.done == 'true'}">
+                      <tr bgcolor="00FF00">
+                        <td>${it.test.done}</td>
+                      </tr>
+                    </j:if>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </j:if>
+
+          <j:if test="${story.state == 'INCOMPLETE'}">
+            <tr bgcolor="FFFF00">
+              <td>${story.id}</td>
+              <td>${story.iteration}</td>
+              <td>${story.text}</td>
+              <td>
+                <table>
+                  <tr>
+                    <j:if test="${it.test.success == 'false'}">
+                      <tr bgcolor="FF0000">
+                        <td>${it.test.success}</td>
+                      </tr>
+                    </j:if>
+                    <j:if test="${it.test.success == 'true'}">
+                      <tr bgcolor="00FF00">
+                        <td>${it.test.success}</td>
+                      </tr>
+                    </j:if>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <table>
+                  <tr>
+                    <j:if test="${it.test.done == 'false'}">
+                      <tr bgcolor="FFFF00">
+                        <td>${it.test.done}</td>
+                      </tr>
+                    </j:if>
+                    <j:if test="${it.test.done == 'true'}">
+                      <tr bgcolor="00FF00">
+                        <td>${it.test.done}</td>
+                      </tr>
+                    </j:if>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </j:if>
+
+        </j:forEach>
+      </table>
+
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

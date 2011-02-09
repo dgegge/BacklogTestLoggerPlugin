@@ -373,7 +373,11 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     if (link.startsWith("testDetails.")) {
       String testName = StringUtils.substringAfter(link, "testDetails.");
       resultat = new SingleTestDetails(getOwner(), stories.getTestWithName(SingleTest.resolveTestNameInUrl(testName)));
+    } else if (link.startsWith("storyDetails.")) {
+      String storyId = StringUtils.substringAfter(link, "storyDetails.");
+      resultat = new SingleStoryDetails(getOwner(), stories.getStoryWithId(storyId));
     }
+    
     return resultat;
   }
 

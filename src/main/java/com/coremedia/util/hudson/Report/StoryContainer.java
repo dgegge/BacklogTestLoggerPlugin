@@ -112,38 +112,47 @@ public class StoryContainer {
 
   public double getAvgExecutionTime() {
     double sumExecutionTime = 0;
-    int count=0;
+    int count = 0;
 
     for (Story story : this.getSuccessfulStories()) {
       for (SingleTest test : story.getTests()) {
-         sumExecutionTime += Double.valueOf(test.getExecutiontime());
-         count++;
+        sumExecutionTime += Double.valueOf(test.getExecutiontime());
+        count++;
       }
     }
 
     for (Story story : this.getFailedStories()) {
       for (SingleTest test : story.getTests()) {
-         sumExecutionTime += Double.valueOf(test.getExecutiontime());
-         count++;
+        sumExecutionTime += Double.valueOf(test.getExecutiontime());
+        count++;
       }
     }
 
     for (Story story : this.getIncompleteStories()) {
       for (SingleTest test : story.getTests()) {
-         sumExecutionTime += Double.valueOf(test.getExecutiontime());
-         count++;
+        sumExecutionTime += Double.valueOf(test.getExecutiontime());
+        count++;
       }
     }
 
-    return Helper.floor(sumExecutionTime/count,2);
+    return Helper.floor(sumExecutionTime / count, 2);
   }
 
   public SingleTest getTestWithName(String aVoid) {
     for (Story story : this.getStories()) {
       for (SingleTest test : story.getTests()) {
-        if (aVoid.equals(test.getClazz()+"."+test.getMethod())) {
+        if (aVoid.equals(test.getClazz() + "." + test.getMethod())) {
           return test;
         }
+      }
+    }
+    return null;
+  }
+
+  public Story getStoryWithId(String id) {
+    for (Story story : this.getStories()) {
+      if (id.equalsIgnoreCase(story.getId())) {
+        return story;
       }
     }
     return null;

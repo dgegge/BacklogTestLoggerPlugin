@@ -10,7 +10,7 @@
     <l:main-panel>
 
       <div class="entete">
-        # ${it.test.clazz}.${it.test.method}
+        ${it.test.clazz}.${it.test.method}
       </div>
 
       <h1>Affected Stories</h1>
@@ -27,7 +27,7 @@
         <j:forEach indexVar="index_story" var="story" items="${it.test.affectedStories}">
           <j:if test="${story.state == 'SUCCESS'}">
             <tr bgcolor="00FF00">
-              <td>${story.id}</td>
+              <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
               <td>${story.iteration}</td>
               <td>${story.text}</td>
               <td>
@@ -67,7 +67,7 @@
 
           <j:if test="${story.state == 'FAILED'}">
             <tr bgcolor="FF0000">
-              <td>${story.id}</td>
+              <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
               <td>${story.iteration}</td>
               <td>${story.text}</td>
               <td>
@@ -107,7 +107,7 @@
 
           <j:if test="${story.state == 'INCOMPLETE'}">
             <tr bgcolor="FFFF00">
-              <td>${story.id}</td>
+              <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
               <td>${story.iteration}</td>
               <td>${story.text}</td>
               <td>
@@ -147,6 +147,18 @@
 
         </j:forEach>
       </table>
+
+      <br/>
+      <br/>
+      <br/>
+
+      <img src="executionTimeGraph" height="250" width="800"/>
+
+      <br/>
+      <br/>
+
+      Execution time of current build: ${it.test.executiontime} s
+
 
     </l:main-panel>
   </l:layout>

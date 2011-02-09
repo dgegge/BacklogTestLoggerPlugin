@@ -1,0 +1,64 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+         xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+         xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+  <l:layout norefresh="true">
+    <!-- TODO: Lookup, why sidepanel is not found
+    <st:include it="${it.owner}" page="sidepanel.jelly" from="${it.owner}"/>
+    -->
+    <st:include page="/tabview/css3.jelly"/>
+    <l:main-panel>
+
+      <div class="entete">
+        Story ID: ${it.story.id}, Iteration ${it.story.iteration}, Status: ${it.story.state}
+      </div>
+
+      <h1>Tests of Story</h1>
+
+      <table style="padding:1px;" border="1px" class="pane sortable">
+        <tr>
+          <td class="pane-header" title="Targets">Testname</td>
+          <td class="pane-header" title="Success State">Test Success State</td>
+          <td class="pane-header" title="Done status">Test Done State</td>
+          <td class="pane-header" title="Execution Time">Execution Time</td>
+        </tr>
+
+        <j:forEach indexVar="index_story" var="test" items="${it.story.tests}">
+          <j:if test="${test.success == 'true'}">
+            <j:if test="${test.done == 'true'}">
+              <tr bgcolor="00FF00">
+                <td> <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a></td>
+                <td>${test.success}</td>
+                <td>${test.done}</td>
+                <td>${test.executiontime}</td>
+              </tr>
+            </j:if>
+            <j:if test="${test.done == 'false'}">
+              <tr bgcolor="FFFF00">
+                <td> <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a></td>
+                <td bgcolor="00FF00">${test.success}</td>
+                <td>${test.done}</td>
+                <td>${test.executiontime}</td>
+              </tr>
+            </j:if>
+          </j:if>
+          <j:if test="${test.success == 'false'}">
+            <tr bgcolor="FF0000">
+              <td> <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a></td>
+              <td>${test.success}</td>
+              <j:if test="${test.done == 'true'}">
+                <td bgcolor="00FF00">${test.done}</td>
+              </j:if>
+              <j:if test="${test.done == 'false'}">
+                <td bgcolor="FFFF00">${test.done}</td>
+              </j:if>
+              <td>${test.executiontime}</td>
+            </tr>
+          </j:if>
+        </j:forEach>
+      </table>
+
+
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

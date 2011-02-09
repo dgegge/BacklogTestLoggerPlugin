@@ -201,7 +201,7 @@
         <!-- ################# SUCCESS #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.successedStories}">
           <tr bgcolor="00FF00">
-            <td>${story.id}</td>
+            <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
             <td>${story.iteration}</td>
             <td>${story.text}</td>
             <td>
@@ -266,7 +266,7 @@
         <!-- ################# FAILED #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.failedStories}">
           <tr bgcolor="FF0000">
-            <td>${story.id}</td>
+            <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
             <td>${story.iteration}</td>
             <td>${story.text}</td>
             <td>
@@ -357,7 +357,7 @@
         <!-- ################# INCOMPLETE #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.incompletedStories}">
           <tr bgcolor="FFFF00">
-            <td>${story.id}</td>
+            <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
             <td>${story.iteration}</td>
             <td>${story.text}</td>
             <td>
@@ -435,7 +435,7 @@
         <!-- ################# UNTESTED #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.untestedStories}">
           <tr bgcolor="00FFFF">
-            <td>${story.id}</td>
+            <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
             <td>${story.iteration}</td>
             <td>${story.text}</td>
             <td colspan="4">

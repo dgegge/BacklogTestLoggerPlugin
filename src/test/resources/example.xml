@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <stories>
-  <story id="123" text="Als Redakteur kann ich ..." iteration="11.1" comment="bla bla">
-      <singleTest package="com.coremedia" class="util" method="test" success="true" done="false" executiontime="11.11" comment="blabla"/>
-      <singleTest package="com.coremedia" class="util" method="nochEinTest" success="true" done="true" executiontime="11.11"/>
+  <story id="123" text="I can do this and this and this" iteration="2011_1" comment="nice story">
+      <singleTest package="com.coremedia" class="util" method="test" success="true" done="false" executiontime="2.35" comment="nice test"/>
+      <singleTest package="com.coremedia" class="util" method="anothertest" success="true" done="true" executiontime="2.54"/>
   </story>
-  <story id="124" text="Ich kann auch..." iteration="11.2" comment="bla bla">
-      <singleTest package="com.coremedia" class="util" method="test" success="true" done="false" executiontime="11.11"/>
-      <singleTest package="com.coremedia" class="util" method="tollerTest" success="false" done="true" executiontime="11.11">
-        <errorlog exception="org.sun.java.Exception">aasdfhj aadljhfa</errorlog>
+  <story id="124" text="I can calculate the ... " iteration="2011_2" comment="also a nice story">
+      <singleTest package="com.coremedia" class="util" method="test" success="true" done="false" executiontime="11.20"/>
+      <singleTest package="com.coremedia" class="util" method="nicetest" success="false" done="true" executiontime="9.56">
+        <errorlog exception="org.sun.java.Exception">Errorlog Message</errorlog>
       </singleTest>
   </story>
-  <story id="125" text="Außerdem kann ich" iteration="11.9" comment="bla bla">
+  <story id="125" text="I can..." iteration="11.9" comment="This is a story which has no tests implemented">
   </story>
 </stories>

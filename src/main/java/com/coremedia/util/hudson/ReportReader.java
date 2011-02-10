@@ -5,12 +5,13 @@ import com.coremedia.util.model.pojo.SingleTest;
 import com.coremedia.util.model.pojo.Stories;
 import com.coremedia.util.model.pojo.Story;
 import com.coremedia.util.model.reader.XMLReader;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.io.PrintStream;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,14 @@ public class ReportReader {
       throw new BacklogTestLoggerParseException("Empty input stream");
     }
     try {
-      XMLReader reader = new XMLReader(new Class[]{Stories.class, Story.class, SingleTest.class});
+      XMLReader reader = new XMLReader(new Class[]{Stories.class, Story.class, SingleTest.class}, new File(getClass().getResource("/xsd/backlogtestlogger.xsd").getPath()));
       JAXBElement element = reader.unmarshal(is.getPath());
-      this.stories = reader.getStories(element, hudsonConsoleWriter);      
+      this.stories = reader.getStories(element, hudsonConsoleWriter);
     } catch (JAXBException e) {
+      hudsonConsoleWriter.println(errMsg + ": " + e.getMessage());
+      e.printStackTrace(hudsonConsoleWriter);
+      throw new BacklogTestLoggerParseException(errMsg, e);
+    } catch (SAXException e) {
       hudsonConsoleWriter.println(errMsg + ": " + e.getMessage());
       e.printStackTrace(hudsonConsoleWriter);
       throw new BacklogTestLoggerParseException(errMsg, e);

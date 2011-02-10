@@ -2,12 +2,12 @@
 
 <stories>
   <story id="123" text="I can do this and this and this" iteration="2011_1" comment="nice story">
-      <singleTest package="com.coremedia" class="util" method="test" success="true" done="false" executiontime="2.35" comment="nice test"/>
-      <singleTest package="com.coremedia" class="util" method="anothertest" success="true" done="true" executiontime="2.54"/>
+      <singleTest class="com.coremedia.util" method="test" success="true" done="false" executiontime="2.35" comment="nice test"/>
+      <singleTest class="com.coremedia.util" method="anothertest" success="true" done="true" executiontime="2.54"/>
   </story>
   <story id="124" text="I can calculate the ... " iteration="2011_2" comment="also a nice story">
-      <singleTest package="com.coremedia" class="util" method="test" success="true" done="false" executiontime="11.20"/>
-      <singleTest package="com.coremedia" class="util" method="nicetest" success="false" done="true" executiontime="9.56">
+      <singleTest class="com.coremedia.util" method="test" success="true" done="false" executiontime="11.20"/>
+      <singleTest class="com.coremedia.util" method="nicetest" success="false" done="true" executiontime="9.56">
         <errorlog exception="org.sun.java.Exception">Errorlog Message</errorlog>
       </singleTest>
   </story>

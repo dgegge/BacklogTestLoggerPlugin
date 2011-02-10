@@ -51,6 +51,14 @@ public class BacklogTestLoggerPublisher extends HealthPublisher implements Matri
   private String unhealthy;
   private String metrics;
 
+  /**
+   * This method configures the plugin. it is called when a change under "configuration"-page in jenkins is made
+   * @param name
+   * @param threshold
+   * @param healthy
+   * @param unhealthy
+   * @param metrics
+   */
   @DataBoundConstructor
   public BacklogTestLoggerPublisher(String name, String threshold,
                                     String healthy, String unhealthy, String metrics) {
@@ -82,6 +90,15 @@ public class BacklogTestLoggerPublisher extends HealthPublisher implements Matri
     return new BacklogTestLoggerResultAggregator(matrixBuild, launcher, listener);
   }
 
+  /**
+   * Performes the action. "main"-method equivalent
+   * @param build
+   * @param launcher
+   * @param listener
+   * @return
+   * @throws InterruptedException
+   * @throws IOException
+   */
   public boolean perform(AbstractBuild<?, ?> build, Launcher launcher,
                          BuildListener listener) throws InterruptedException, IOException {
 

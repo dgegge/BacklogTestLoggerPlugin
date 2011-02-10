@@ -4,11 +4,15 @@ import com.coremedia.util.model.pojo.Errorlog;
 import com.coremedia.util.model.pojo.SingleTest;
 import com.coremedia.util.model.pojo.Stories;
 import com.coremedia.util.model.pojo.Story;
+import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import java.io.File;
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -35,9 +39,13 @@ public class XMLReader {
    * @param classes which should be analyzed by the JAXBContext
    * @throws JAXBException if anything fails
    */
-  public XMLReader(Class[] classes) throws JAXBException {
+  public XMLReader(Class[] classes, File schemaFile) throws JAXBException, SAXException {
     ctx = JAXBContext.newInstance(classes);
     unmarshaller = ctx.createUnmarshaller();
+    
+    SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);    
+    Schema schema = schemaFactory.newSchema(schemaFile);
+    unmarshaller.setSchema(schema);
   }
 
   /**
@@ -47,7 +55,7 @@ public class XMLReader {
    * @return unmarshalled JAXBElement
    * @throws JAXBException if anything fails
    */
-  public JAXBElement unmarshal(File file) throws JAXBException {
+  public JAXBElement unmarshal(File file) throws JAXBException{
     JAXBElement element = (JAXBElement) unmarshaller.unmarshal(file);
     return element;
   }

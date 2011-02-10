@@ -31,6 +31,11 @@ public class SingleTestDetails implements ModelObject {
   private final SingleTest test;
   private final AbstractBuild<?, ?> _owner;
 
+  /**
+   * Constructor
+   * @param owner
+   * @param test
+   */
   public SingleTestDetails(final AbstractBuild<?, ?> owner, SingleTest test) {
     this.test = test;
     this._owner = owner;
@@ -48,12 +53,24 @@ public class SingleTestDetails implements ModelObject {
     return "Details of test " + test.getClazz() + "." + test.getMethod();
   }
 
+  /**
+   * This method will create a chart. This could be implemented in the jelly-file via <img src="executionTimeGraph">
+   *
+   * @param request
+   * @param response
+   * @throws IOException
+   */
   public void doExecutionTimeGraph(StaplerRequest request,
                                    StaplerResponse response) throws IOException {
     ChartUtil.generateGraph(request, response, createExecutionTimeGraph(),
             800, 250);
   }
 
+  /**
+   * creates the chart
+   *
+   * @return the chart
+   */
   private JFreeChart createExecutionTimeGraph() {
     DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel> builder = new DataSetBuilder<String, ChartUtil.NumberOnlyBuildLabel>();
 
@@ -106,6 +123,8 @@ public class SingleTestDetails implements ModelObject {
 
   /**
    * Returns the dynamic result
+   * This method is called, when a redirect is made.
+   * it calls the  BacklogTestLoggerAction.getDynamic method
    *
    * @param link     the link to identify the sub page to show
    * @param request  Stapler request

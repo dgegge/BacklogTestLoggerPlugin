@@ -2,6 +2,8 @@ package com.coremedia.util.hudson;
 
 import com.coremedia.util.hudson.Report.StoryContainer;
 import com.coremedia.util.hudson.Report.TrendReport;
+import com.coremedia.util.model.helper.MathHelper;
+import com.coremedia.util.model.helper.StoryHelper;
 import com.coremedia.util.model.pojo.SingleTest;
 import com.coremedia.util.model.pojo.Story;
 import com.coremedia.util.model.pojo.StoryState;
@@ -21,6 +23,9 @@ import java.util.Map;
 
 /**
  * Action used for BacklogTestLogger report on build level.
+ * This is the "main"-class which is used by hudson/jenkins
+ * Use the getter-methods in jelly-files. e.g. it.build.numFailedStories
+ * returns the content of the field numFailedStories
  *
  * @author Daniel Gegenheimer
  */
@@ -65,6 +70,14 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     return BacklogTestLoggerPlugin.BUILD_DISPLAY_NAME;
   }
 
+  /**
+   * You can see this method as the "main"-method. It is called whenever is build is made
+   * @param build
+   * @param files
+   * @param logger
+   * @param healthDescriptor
+   * @param metrics
+   */
   public BacklogTestLoggerBuildAction(AbstractBuild<?, ?> build,
                                       ArrayList<String> files, PrintStream logger,
                                       HealthDescriptor healthDescriptor, Map<String, String> metrics) {
@@ -85,7 +98,9 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
       logger.println("[BacklogTestLogger] Metric : " + metric_name);
     }
 
-
+    /**
+     * Parse the reports and create story-information
+     */
     for (String file : files) {
       String current_report = file;
       URI is;
@@ -96,7 +111,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
                 + current_report);
         ReportReader rs = new ReportReader(is, logger, metrics);
 
-        this.stories.getStories().addAll(StoryContainer.calculateStates(rs.getStories()));
+        this.stories.getStories().addAll(StoryHelper.calculateStates(rs.getStories()));
 
         makeAllocationTestsToStories(this.stories.getStories());
 
@@ -165,22 +180,22 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
 
   public double getPerFailedStories() {
     this.perFailedStories = ((double) getNumFailedStories() / getNumStories()) * 100;
-    return Helper.floor(perFailedStories, 2);
+    return MathHelper.floor(perFailedStories, 2);
   }
 
   public double getPerSuccessedStories() {
     this.perSuccessedStories = ((double) getNumSuccessedStories() / getNumStories()) * 100;
-    return Helper.floor(perSuccessedStories, 2);
+    return MathHelper.floor(perSuccessedStories, 2);
   }
 
   public double getPerIncompletedStories() {
     this.perIncompletedStories = ((double) getNumIncompletedStories() / getNumStories()) * 100;
-    return Helper.floor(perIncompletedStories, 2);
+    return MathHelper.floor(perIncompletedStories, 2);
   }
 
   public double getPerUntestedStories() {
     this.perUntestedStories = ((double) getNumUntestedStories() / getNumStories()) * 100;
-    return Helper.floor(perUntestedStories, 2);
+    return MathHelper.floor(perUntestedStories, 2);
   }
 
   public StoryContainer getStoryContainer() {
@@ -201,6 +216,11 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     return healthDescriptor;
   }
 
+  /**
+   * Allocates stories to tests
+   * This is needed, because we also want to show the stories for each test
+   * @param stories
+   */
   private void makeAllocationTestsToStories(List<Story> stories) {
     for (Story story :stories) {
       for (SingleTest test : story.getTests()) {
@@ -218,31 +238,23 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     }
   }
 
+  /**
+   * Calculates the state of a story due to its test-results
+   * @param stories
+   */
   private void allocateStories(List<Story> stories) {
 
     //successed
-    this.successedStories = allocateStoriesWithState(stories, StoryState.SUCCESS);
+    this.successedStories = StoryHelper.allocateStoriesWithState(stories, StoryState.SUCCESS);
 
     //failed
-    this.failedStories = allocateStoriesWithState(stories, StoryState.FAILED);
+    this.failedStories = StoryHelper.allocateStoriesWithState(stories, StoryState.FAILED);
 
     //incompleted
-    this.incompletedStories = allocateStoriesWithState(stories, StoryState.INCOMPLETE);
+    this.incompletedStories = StoryHelper.allocateStoriesWithState(stories, StoryState.INCOMPLETE);
 
     //untested
-    this.untestedStories = allocateStoriesWithState(stories, StoryState.UNTESTED);
-  }
-
-  private List<Story> allocateStoriesWithState(List<Story> stories, StoryState state) {
-    List<Story> retList = new ArrayList<Story>();
-
-    for (Story story : stories) {
-      if (story.getState().toString().equals(state.toString())) {
-        retList.add(story);
-      }
-    }
-
-    return retList;
+    this.untestedStories = StoryHelper.allocateStoriesWithState(stories, StoryState.UNTESTED);
   }
 
   /**
@@ -278,6 +290,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
   }
 
   /**
+   * creates a summary which could be implemented using it.summary in jelly files
    * @return Summary HTML
    */
   public String getSummary() {
@@ -319,9 +332,8 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
   }
 
   /**
-   * This is needed for the entry page
-   *
-   * @return
+   * This is needed for the entry page. This method could be used by jelly files using it.smallSummary   
+   * @return html-code with a tiny summary
    */
   public String getSmallSummary() {
     StringBuilder strbuilder = new StringBuilder();
@@ -360,7 +372,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
 
   /**
    * Returns the dynamic result
-   *
+   * Calculates an object which the referrer is pointing to
    * @param link     the link to identify the sub page to show
    * @param request  Stapler request
    * @param response Stapler response

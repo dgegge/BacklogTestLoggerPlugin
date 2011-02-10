@@ -58,6 +58,20 @@
         </j:forEach>
       </table>
 
+      <br/>
+
+      <img src="stateGraph" height="250" width="800"/>
+
+      <br/>
+      Legend:
+      <ul>
+        <li>3: Story success</li>
+        <li>2: Story incomplete</li>
+        <li>1: Story failed</li>
+        <li>0: Story untested</li>                
+      </ul>
+
+
 
     </l:main-panel>
   </l:layout>

@@ -48,8 +48,6 @@ public class SingleTest {
   @XmlElementRef(name = "errorlog", type = JAXBElement.class)
   @XmlMixed
   protected List<Serializable> content;
-  @XmlAttribute(name = "package", required = true)
-  protected String _package;
   @XmlAttribute(name = "class", required = true)
   protected String clazz;
   @XmlAttribute(required = true)
@@ -117,27 +115,7 @@ public class SingleTest {
     }
     return this.content;
   }
-
-  /**
-   * Gets the value of the package property.
-   *
-   * @return possible object is
-   *         {@link String }
-   */
-  public String getPackage() {
-    return _package;
-  }
-
-  /**
-   * Sets the value of the package property.
-   *
-   * @param value allowed object is
-   *              {@link String }
-   */
-  public void setPackage(String value) {
-    this._package = value;
-  }
-
+  
   /**
    * Gets the value of the clazz property.
    *

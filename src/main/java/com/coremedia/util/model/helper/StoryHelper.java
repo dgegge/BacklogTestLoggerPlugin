@@ -51,4 +51,22 @@ public class StoryHelper {
 
     return retStories;
   }
+
+  /**
+   * Allocates the stories in the handled list with the handled state
+   * @param stories which should be allocated
+   * @param state which the stories should have
+   * @return a list with stories having the state handled
+   */
+  public static List<Story> allocateStoriesWithState(List<Story> stories, StoryState state) {
+    List<Story> retList = new ArrayList<Story>();
+
+    for (Story story : stories) {
+      if (story.getState().toString().equals(state.toString())) {
+        retList.add(story);
+      }
+    }
+
+    return retList;
+  }
 }

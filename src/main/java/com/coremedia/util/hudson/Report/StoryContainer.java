@@ -1,12 +1,11 @@
 package com.coremedia.util.hudson.Report;
 
-import com.coremedia.util.hudson.Helper;
+import com.coremedia.util.model.helper.MathHelper;
 import com.coremedia.util.model.pojo.SingleTest;
 import com.coremedia.util.model.pojo.Story;
 import com.coremedia.util.model.pojo.StoryState;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class StoryContainer {
 
@@ -29,45 +28,6 @@ public class StoryContainer {
 
   public ArrayList<Story> getStories() {
     return stories;
-  }
-
-  public static List<Story> calculateStates(List<Story> stories) {
-    List<Story> retStories = new ArrayList<Story>();
-    for (Story story : stories) {
-      story.setState(StoryState.SUCCESS);
-
-      if (story.getTests() == null || story.getTests().isEmpty()) {
-        story.setState(StoryState.UNTESTED);
-      }
-
-      boolean done = true;
-      boolean success = true;
-
-      for (SingleTest test : story.getTests()) {
-
-        //System.out.println("Done: " + test.getDone().booleanValue() +  " Success " + test.getSuccess().booleanValue());
-
-        if (!test.getDone().booleanValue() && !story.getState().equals(StoryState.FAILED)) {
-          //System.out.println("Done: " + test.getDone().booleanValue());
-          done = false;
-        }
-
-        if (!test.getSuccess().booleanValue()) {
-          //System.out.println("Success " + test.getSuccess().booleanValue());
-          success = false;
-        }
-      }
-
-      if (!done) {
-        story.setState(StoryState.INCOMPLETE);
-      }
-      if (!success) {
-        story.setState(StoryState.FAILED);
-      }
-      retStories.add(story);
-    }
-
-    return retStories;
   }
 
   public ArrayList<Story> getSuccessfulStories() {
@@ -135,7 +95,7 @@ public class StoryContainer {
       }
     }
 
-    return Helper.floor(sumExecutionTime / count, 2);
+    return MathHelper.floor(sumExecutionTime / count, 2);
   }
 
   public SingleTest getTestWithName(String aVoid) {

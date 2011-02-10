@@ -6,6 +6,7 @@ import com.coremedia.util.model.pojo.Stories;
 import com.coremedia.util.model.pojo.Story;
 import com.coremedia.util.model.reader.XMLReader;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -28,8 +29,8 @@ import static net.sf.ezmorph.test.ArrayAssertions.assertEquals;
 public class XMLReaderTest {
 
   @Test
-  public void testParseEntireDocument() throws JAXBException {
-    XMLReader reader = new XMLReader(new Class[]{Stories.class, Story.class, SingleTest.class});
+  public void testParseEntireDocument() throws JAXBException, SAXException {
+    XMLReader reader = new XMLReader(new Class[]{Stories.class, Story.class, SingleTest.class}, new File(getClass().getResource("/backlogtestlogger.xsd").getPath()));
     URL resource = getClass().getResource("/example.xml");
 
     File file = new File(resource.getPath());

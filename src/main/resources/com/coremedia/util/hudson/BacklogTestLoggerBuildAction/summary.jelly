@@ -1,9 +1,22 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
-	xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
-	xmlns:f="/lib/form" xmlns:i="jelly:fmt">
-	
-	<st:include page="/tabview/css2.jelly" />	
-	<t:summary icon="graph.gif">	
-	${it.smallSummary}
-	</t:summary>
+         xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+         xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+  <st:include page="/tabview/css2.jelly"/>
+  <t:summary icon="graph.gif">
+    <div class="progress-container">
+      <div id="green" style="width:${it.perSuccessedStories}%;">
+        <span id="green">Successed Stories: ${it.perSuccessedStories}% (${it.numSuccessedStories})</span>
+      </div>
+      <div id="yellow" style="width:${it.perIncompletedStories}%;">
+        <span id="yellow">Incompleted Stories: ${it.perIncompletedStories}% (${it.numIncompletedStories})</span>
+      </div>
+      <div id="red" style="width:${it.perFailedStories}%;">
+        <span id="red">Failed Stories: ${it.perFailedStories}% (${it.numFailedStories})</span>
+      </div>
+      <div id="blue" style="width:${it.perUntestedStories}%;">
+        <span id="blue">Untested Stories: ${it.perUntestedStories}% (${it.numUntestedStories})</span>
+      </div>
+    </div>
+  </t:summary>
 </j:jelly>

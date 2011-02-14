@@ -13,6 +13,57 @@
         Story ID: ${it.story.id}, Iteration ${it.story.iteration}, Status: ${it.story.state}
       </div>
 
+      <h1>Story Information</h1>
+
+      <table border="2">
+        <tr>
+          <td>
+            <b>Story ID</b>
+          </td>
+          <td>
+            ${it.story.id}
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <b>Iteration</b>
+          </td>
+          <td>
+            ${it.story.iteration}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Status</b>
+          </td>
+          <td>
+            ${it.story.state}
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <b>Text</b>
+          </td>
+          <td>
+            ${it.story.text}
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <b>Kommentar</b>
+          </td>
+          <td>
+            ${it.story.comment}
+          </td>
+
+        </tr>
+
+      </table>
+
+
       <h1>Tests of Story</h1>
 
       <table style="padding:1px;" border="1px" class="pane sortable">
@@ -27,7 +78,9 @@
           <j:if test="${test.success == 'true'}">
             <j:if test="${test.done == 'true'}">
               <tr bgcolor="00FF00">
-                <td> <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a></td>
+                <td>
+                  <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
+                </td>
                 <td>${test.success}</td>
                 <td>${test.done}</td>
                 <td>${test.executiontime}</td>
@@ -35,7 +88,9 @@
             </j:if>
             <j:if test="${test.done == 'false'}">
               <tr bgcolor="FFFF00">
-                <td> <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a></td>
+                <td>
+                  <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
+                </td>
                 <td bgcolor="00FF00">${test.success}</td>
                 <td>${test.done}</td>
                 <td>${test.executiontime}</td>
@@ -44,7 +99,9 @@
           </j:if>
           <j:if test="${test.success == 'false'}">
             <tr bgcolor="FF0000">
-              <td> <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a></td>
+              <td>
+                <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
+              </td>
               <td>${test.success}</td>
               <j:if test="${test.done == 'true'}">
                 <td bgcolor="00FF00">${test.done}</td>
@@ -68,9 +125,8 @@
         <li>3: Story success</li>
         <li>2: Story incomplete</li>
         <li>1: Story failed</li>
-        <li>0: Story untested</li>                
+        <li>0: Story untested</li>
       </ul>
-
 
 
     </l:main-panel>

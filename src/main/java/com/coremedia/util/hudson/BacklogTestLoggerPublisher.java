@@ -44,7 +44,7 @@ public class BacklogTestLoggerPublisher extends Publisher {
   /**
    * This method configures the plugin. it is called when a change under "configuration"-page in jenkins is made
    *
-   * @param name
+   * @param name is just an acronym for "path of report-files"
    */
   @DataBoundConstructor
   public BacklogTestLoggerPublisher(String name) {
@@ -54,18 +54,17 @@ public class BacklogTestLoggerPublisher extends Publisher {
   /**
    * Performes the action. "main"-method equivalent
    *
-   * @param build
-   * @param launcher
-   * @param listener
-   * @return
-   * @throws InterruptedException
-   * @throws IOException
+   * @param build AbstractBuild
+   * @param launcher Launcher
+   * @param listener BuildListener
+   * @return boolean
+   * @throws InterruptedException failed
+   * @throws IOException failed
    */
   public boolean perform(AbstractBuild<?, ?> build, Launcher launcher,
                          BuildListener listener) throws InterruptedException, IOException {
 
     PrintStream logger = listener.getLogger();
-    
 
     /**
      * Define if we must parse multiple file by searching for , in the name
@@ -82,20 +81,20 @@ public class BacklogTestLoggerPublisher extends Publisher {
       logger.println("[CapsAnalysis] Multiple reports detected.");
     }
     ArrayList<String> filesToParse = new ArrayList<String>();
-    for (int i = 0; i < files.length; i++) {
+    for (String file : files) {
       FileSet fileSet = new FileSet();
       File workspace = new File(build.getWorkspace().toURI());
 
       fileSet.setDir(workspace);
-      fileSet.setIncludes(files[i].trim());
+      fileSet.setIncludes(file.trim());
       Project antProject = new Project();
       fileSet.setProject(antProject);
       String[] tmp_files = fileSet.getDirectoryScanner(antProject).getIncludedFiles();
-      for (int j = 0; j < tmp_files.length; j++) {
-        if (build.getProject().getWorkspace().child(tmp_files[j]).exists()) {
-          filesToParse.add(tmp_files[j]);
+      for (String tmp_file : tmp_files) {
+        if (build.getProject().getWorkspace().child(tmp_file).exists()) {
+          filesToParse.add(tmp_file);
         } else {
-          logger.println("[CapsAnalysis] Impossible to analyse report " + tmp_files[j] + " file not found!");
+          logger.println("[CapsAnalysis] Impossible to analyse report " + tmp_file + " file not found!");
           build.setResult(Result.UNSTABLE);
         }
       }

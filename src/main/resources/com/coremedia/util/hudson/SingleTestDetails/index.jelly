@@ -13,6 +13,72 @@
         ${it.test.clazz}.${it.test.method}
       </div>
 
+      <h1>Test Information</h1>
+
+      <table border="2">
+        <tr>
+          <td>
+            <b>Class</b>
+          </td>
+          <td>
+            ${it.test.clazz}
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <b>Method</b>
+          </td>
+          <td>
+            ${it.test.method}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Success state</b>
+          </td>
+          <td>
+            ${it.test.success}
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <b>Done</b>
+          </td>
+          <td>
+            ${it.test.done}
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <b>Execution Time</b>
+          </td>
+          <td>
+            ${it.test.executiontime}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <b>Comment</b>
+          </td>
+          <td>
+            ${it.test.comment}
+          </td>
+        </tr>
+      </table>
+
+      <j:if test="${it.test.success == 'false'}">
+        <div class="cadre_grey">
+          <b>Error Log:</b>
+          <br/>
+          ${it.test.error.value}
+        </div>
+      </j:if>
+
+
       <h1>Affected Stories</h1>
 
       <table style="padding:1px;" border="1px" class="pane sortable">
@@ -27,7 +93,9 @@
         <j:forEach indexVar="index_story" var="story" items="${it.test.affectedStories}">
           <j:if test="${story.state == 'SUCCESS'}">
             <tr bgcolor="00FF00">
-              <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
+              <td>
+                <a href="./storyDetails.${story.id}">${story.id}</a>
+              </td>
               <td>${story.iteration}</td>
               <td>${story.text}</td>
               <td>
@@ -67,7 +135,9 @@
 
           <j:if test="${story.state == 'FAILED'}">
             <tr bgcolor="FF0000">
-              <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
+              <td>
+                <a href="./storyDetails.${story.id}">${story.id}</a>
+              </td>
               <td>${story.iteration}</td>
               <td>${story.text}</td>
               <td>
@@ -107,7 +177,9 @@
 
           <j:if test="${story.state == 'INCOMPLETE'}">
             <tr bgcolor="FFFF00">
-              <td><a href="./storyDetails.${story.id}">${story.id}</a></td>
+              <td>
+                <a href="./storyDetails.${story.id}">${story.id}</a>
+              </td>
               <td>${story.iteration}</td>
               <td>${story.text}</td>
               <td>

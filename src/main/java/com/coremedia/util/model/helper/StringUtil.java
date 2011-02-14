@@ -17,20 +17,22 @@ public class StringUtil {
       return "";
     }
     StringBuffer result = new StringBuffer();
+    StringBuffer line = new StringBuffer();
     String tmp = string;
 
+    //tmp is greater then 70 --> divide the string into string with <br/> elements after 70 chars
     if (tmp.length() > 70) {
       BreakIterator iterator = BreakIterator.getWordInstance();
       iterator.setText(tmp);
-
-      StringBuffer line = new StringBuffer();
-
       int index = 0;
       while (iterator.next() != BreakIterator.DONE) {
-        if (line.length() < 70) {
-          line.append(tmp.substring(index, iterator.current()));
+        String currentWord = tmp.substring(index, iterator.current());
+
+        if ((line.length() + currentWord.length()) < 70) {
+          line.append(currentWord);
         } else {
           result.append(line);
+          result.append(currentWord);
           result.append("<br />");
           line = new StringBuffer();
         }
@@ -40,7 +42,7 @@ public class StringUtil {
     else {
       result.append(tmp);
     }
-
+    result.append(line);
     return result.toString();
   }
 }

@@ -41,15 +41,9 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
 
   private Map<String, SingleTest> tests = new HashMap<String, SingleTest>();
 
-  private int numFailedStories;
-  private int numSuccessedStories;
-  private int numIncompletedStories;
   private int numUntestedStories;
   private int numStories;
 
-  private double perFailedStories;
-  private double perSuccessedStories;
-  private double perIncompletedStories;
   private double perUntestedStories;
 
   /**
@@ -90,17 +84,17 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
   }
 
   public int getNumFailedStories() {
-    this.numFailedStories = failedStories.size();
+    int numFailedStories = failedStories.size();
     return numFailedStories;
   }
 
   public int getNumSuccessedStories() {
-    this.numSuccessedStories = successedStories.size();
+    int numSuccessedStories = successedStories.size();
     return numSuccessedStories;
   }
 
   public int getNumIncompletedStories() {
-    this.numIncompletedStories = incompletedStories.size();
+    int numIncompletedStories = incompletedStories.size();
     return numIncompletedStories;
   }
 
@@ -114,18 +108,37 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     return numStories;
   }
 
+  public int getNumStoriesWithoutUntested() {
+    return failedStories.size() + incompletedStories.size() + successedStories.size();
+  }
+
+  public double getPerFailedStoriesWithoutUntested() {
+    double perFailedStories = ((double) getNumFailedStories() / getNumStoriesWithoutUntested()) * 100;
+    return MathHelper.floor(perFailedStories, 2);
+  }
+
+  public double getPerSuccessedStoriesWithoutUntested() {
+    double perSuccessedStories = ((double) getNumSuccessedStories() / getNumStoriesWithoutUntested()) * 100;
+    return MathHelper.floor(perSuccessedStories, 2);
+  }
+
+  public double getPerIncompletedStoriesWithoutUntested() {
+    double perIncompletedStories = ((double) getNumIncompletedStories() / getNumStoriesWithoutUntested()) * 100;
+    return MathHelper.floor(perIncompletedStories, 2);
+  }
+
   public double getPerFailedStories() {
-    this.perFailedStories = ((double) getNumFailedStories() / getNumStories()) * 100;
+    double perFailedStories = ((double) getNumFailedStories() / getNumStories()) * 100;
     return MathHelper.floor(perFailedStories, 2);
   }
 
   public double getPerSuccessedStories() {
-    this.perSuccessedStories = ((double) getNumSuccessedStories() / getNumStories()) * 100;
+    double perSuccessedStories = ((double) getNumSuccessedStories() / getNumStories()) * 100;
     return MathHelper.floor(perSuccessedStories, 2);
   }
 
   public double getPerIncompletedStories() {
-    this.perIncompletedStories = ((double) getNumIncompletedStories() / getNumStories()) * 100;
+    double perIncompletedStories = ((double) getNumIncompletedStories() / getNumStories()) * 100;
     return MathHelper.floor(perIncompletedStories, 2);
   }
 
@@ -194,15 +207,11 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     for (Story story : stories) {
       for (SingleTest test : story.getTests()) {
         SingleTest singleTest = tests.get(test.getTestname());
-
         if (singleTest == null) {
           singleTest = test;
         }
-
         singleTest.addStoryToTest(story);
-
         tests.put(test.getTestname(), singleTest);
-
       }
     }
   }
@@ -246,7 +255,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     }
     return null;
   }
-  
+
   /**
    * Returns the dynamic result
    * Calculates an object which the referrer is pointing to
@@ -268,7 +277,18 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
       resultat = new SingleStoryDetails(getOwner(), stories.getStoryWithId(storyId));
     } else if (link.startsWith("iterationDetails.")) {
       String iteration = StringUtils.substringAfter(link, "iterationDetails.");
-      resultat = new SingleIterationDetails(getOwner(), stories.getStoriesWithIteration(iteration),iteration);
+      resultat = new SingleIterationDetails(getOwner(), stories.getStoriesWithIteration(iteration), iteration);
+    } else if (link.startsWith("multiStoryDetails."))  {
+      String state = StringUtils.substringAfter(link, "multiStoryDetails.");
+      if (StoryState.SUCCESS.toString().equalsIgnoreCase(state)) {
+        resultat = new MultiStoryDetails(getOwner(), stories.getSuccessfulStories(), StoryState.SUCCESS);
+      } else if (StoryState.FAILED.toString().equalsIgnoreCase(state)) {
+        resultat = new MultiStoryDetails(getOwner(), stories.getFailedStories(), StoryState.FAILED);
+      } else if (StoryState.INCOMPLETE.toString().equalsIgnoreCase(state)) {
+        resultat = new MultiStoryDetails(getOwner(), stories.getIncompleteStories(), StoryState.INCOMPLETE);
+      } else if (StoryState.UNTESTED.toString().equalsIgnoreCase(state)) {
+        resultat = new MultiStoryDetails(getOwner(), stories.getUntestedStories(), StoryState.UNTESTED);        
+      }
     }
 
     return resultat;

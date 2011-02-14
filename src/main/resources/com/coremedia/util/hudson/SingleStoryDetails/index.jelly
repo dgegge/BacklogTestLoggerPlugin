@@ -64,70 +64,70 @@
       </table>
 
 
-      <h1>Tests of Story</h1>
+      <j:if test="$it.story.success != 'UNTESTED'">
+        <h1>Tests of Story</h1>
+        <table style="padding:1px;" border="1px" class="pane sortable">
+          <tr>
+            <td class="pane-header" title="Targets">Testname</td>
+            <td class="pane-header" title="Success State">Test Success State</td>
+            <td class="pane-header" title="Done status">Test Done State</td>
+            <td class="pane-header" title="Execution Time">Execution Time</td>
+          </tr>
 
-      <table style="padding:1px;" border="1px" class="pane sortable">
-        <tr>
-          <td class="pane-header" title="Targets">Testname</td>
-          <td class="pane-header" title="Success State">Test Success State</td>
-          <td class="pane-header" title="Done status">Test Done State</td>
-          <td class="pane-header" title="Execution Time">Execution Time</td>
-        </tr>
-
-        <j:forEach indexVar="index_story" var="test" items="${it.story.tests}">
-          <j:if test="${test.success == 'true'}">
-            <j:if test="${test.done == 'true'}">
-              <tr bgcolor="00FF00">
+          <j:forEach indexVar="index_story" var="test" items="${it.story.tests}">
+            <j:if test="${test.success == 'true'}">
+              <j:if test="${test.done == 'true'}">
+                <tr bgcolor="00FF00">
+                  <td>
+                    <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
+                  </td>
+                  <td>${test.success}</td>
+                  <td>${test.done}</td>
+                  <td>${test.executiontime}</td>
+                </tr>
+              </j:if>
+              <j:if test="${test.done == 'false'}">
+                <tr bgcolor="FFFF00">
+                  <td>
+                    <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
+                  </td>
+                  <td bgcolor="00FF00">${test.success}</td>
+                  <td>${test.done}</td>
+                  <td>${test.executiontime}</td>
+                </tr>
+              </j:if>
+            </j:if>
+            <j:if test="${test.success == 'false'}">
+              <tr bgcolor="FF0000">
                 <td>
                   <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
                 </td>
                 <td>${test.success}</td>
-                <td>${test.done}</td>
+                <j:if test="${test.done == 'true'}">
+                  <td bgcolor="00FF00">${test.done}</td>
+                </j:if>
+                <j:if test="${test.done == 'false'}">
+                  <td bgcolor="FFFF00">${test.done}</td>
+                </j:if>
                 <td>${test.executiontime}</td>
               </tr>
             </j:if>
-            <j:if test="${test.done == 'false'}">
-              <tr bgcolor="FFFF00">
-                <td>
-                  <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
-                </td>
-                <td bgcolor="00FF00">${test.success}</td>
-                <td>${test.done}</td>
-                <td>${test.executiontime}</td>
-              </tr>
-            </j:if>
-          </j:if>
-          <j:if test="${test.success == 'false'}">
-            <tr bgcolor="FF0000">
-              <td>
-                <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
-              </td>
-              <td>${test.success}</td>
-              <j:if test="${test.done == 'true'}">
-                <td bgcolor="00FF00">${test.done}</td>
-              </j:if>
-              <j:if test="${test.done == 'false'}">
-                <td bgcolor="FFFF00">${test.done}</td>
-              </j:if>
-              <td>${test.executiontime}</td>
-            </tr>
-          </j:if>
-        </j:forEach>
-      </table>
+          </j:forEach>
+        </table>
 
-      <br/>
+        <br/>
 
-      <img src="stateGraph" height="250" width="800"/>
+        <img src="stateGraph" height="250" width="800"/>
 
-      <br/>
-      Legend:
-      <ul>
-        <li>3: Story success</li>
-        <li>2: Story incomplete</li>
-        <li>1: Story failed</li>
-        <li>0: Story untested</li>
-      </ul>
-
+        <br/>
+        Legend:
+        <ul>
+          <li>3: Story success</li>
+          <li>2: Story incomplete</li>
+          <li>1: Story failed</li>
+          <li>0: Story untested</li>
+        </ul>
+      </j:if>
 
     </l:main-panel>
   </l:layout>

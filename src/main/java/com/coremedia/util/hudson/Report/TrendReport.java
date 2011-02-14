@@ -3,7 +3,7 @@ package com.coremedia.util.hudson.Report;
 /**
  * Class representation of trend between two reports
  *
- * @author Lapeluche
+ * @author Daniel Gegenheimer
  */
 public class TrendReport {
 

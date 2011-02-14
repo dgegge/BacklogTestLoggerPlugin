@@ -24,8 +24,4 @@ public class AbstractBacklogTestLoggerAction implements Action {
    public String getUrlName() {
       return BacklogTestLoggerPlugin.URL;
    }
-
-   protected boolean shouldReloadGraph(StaplerRequest request, StaplerResponse response, Run build) throws IOException {
-      return !request.checkIfModified(build.getTimestamp(), response);
-   }
 }

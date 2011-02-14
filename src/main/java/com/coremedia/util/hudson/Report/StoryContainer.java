@@ -20,13 +20,6 @@ public class StoryContainer {
     stories = new ArrayList<Story>();
   }
 
-  /**
-   * Add a report into Container
-   */
-  public void addStory(Story story) {
-    stories.add(story);
-  }
-
   public ArrayList<Story> getStories() {
     return stories;
   }

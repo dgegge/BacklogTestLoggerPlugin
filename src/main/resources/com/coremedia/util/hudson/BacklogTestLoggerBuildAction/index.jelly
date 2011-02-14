@@ -8,10 +8,7 @@
 
       <h1>Backlog Test Report</h1>
 
-      <j:set var="yellowPer" value="${it.perIncompletedStories}"/>
-      <j:set var="redPer" value="${it.perFailedStories}"/>
-      <j:set var="bluePer" value="${it.perUntestedStories}"/>
-
+      <h3>All Stories</h3>
       <div class="progress-container">
         <div id="green" style="width:${it.perSuccessedStories}%;">
           ${it.perSuccessedStories}% (${it.numSuccessedStories})
@@ -28,6 +25,29 @@
         <div id="blue" style="width:${it.perUntestedStories}%;">
           ${it.perUntestedStories}% (${it.numUntestedStories})
           <span id="blue">Untested Stories: ${it.perUntestedStories}% (${it.numUntestedStories})</span>
+        </div>
+      </div>
+
+      <br/>
+      <br/>
+      <br/>
+
+      <h3>Only Tested Stories</h3>
+      <div class="progress-container">
+        <div id="green" style="width:${it.perSuccessedStoriesWithoutUntested}%;">
+          ${it.perSuccessedStoriesWithoutUntested}% (${it.numSuccessedStories})
+          <span id="green">Successed Stories: ${it.perSuccessedStoriesWithoutUntested}% (${it.numSuccessedStories})
+          </span>
+        </div>
+        <div id="yellow" style="width:${it.perIncompletedStoriesWithoutUntested}%;">
+          ${it.perIncompletedStoriesWithoutUntested}% (${it.numIncompletedStories})
+          <span id="yellow">Incompleted Stories: ${it.perIncompletedStoriesWithoutUntested}%
+            (${it.numIncompletedStories})
+          </span>
+        </div>
+        <div id="red" style="width:${it.perFailedStoriesWithoutUntested}%;">
+          ${it.perFailedStoriesWithoutUntested}% (${it.numFailedStories})
+          <span id="red">Failed Stories: ${it.perFailedStoriesWithoutUntested}% (${it.numFailedStories})</span>
         </div>
       </div>
 
@@ -68,7 +88,9 @@
                 <img border="0" src="/plugin/backlogtestlogger/icons/bullet_green.png" alt="messages"/>
               </td>
               <td style="text-align:left;">
-                <strong>Successed stories</strong>
+                <strong>
+                  <a href="./multiStoryDetails.SUCCESS">Successed stories</a>
+                </strong>
               </td>
               <td>${it.numSuccessedStories}</td>
               <td>${it.perSuccessedStories}%</td>
@@ -93,7 +115,7 @@
 
 
                 <strong>
-                  Failed stories
+                  <a href="./multiStoryDetails.FAILED">Failed stories</a>
                 </strong>
               </td>
               <td>${it.numFailedStories}</td>
@@ -123,7 +145,7 @@
 
 
                 <strong>
-                  Incompleted stories
+                  <a href="./multiStoryDetails.INCOMPLETE">Incompleted stories</a>
                 </strong>
               </td>
               <td style="width:15%">${it.numIncompletedStories}</td>
@@ -151,7 +173,7 @@
 
 
                 <strong>
-                  Untested stories
+                  <a href="./multiStoryDetails.UNTESTED">Untested stories</a>
                 </strong>
               </td>
               <td>${it.numUntestedStories}</td>
@@ -226,7 +248,9 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td><a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
+            <td>
+              <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
+            </td>
             <td>${story.text}</td>
             <td>
               <table>
@@ -293,7 +317,9 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td><a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
+            <td>
+              <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
+            </td>
             <td>${story.text}</td>
             <td>
               <table>
@@ -386,7 +412,9 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td><a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
+            <td>
+              <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
+            </td>
             <td>${story.text}</td>
             <td>
               <table>
@@ -466,7 +494,9 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td><a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
+            <td>
+              <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
+            </td>
             <td>${story.text}</td>
             <td colspan="4">
               No Tests for Story

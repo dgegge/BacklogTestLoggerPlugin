@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jvnet.hudson.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.377</version>
+    <version>1.389</version>
     <!-- which version of Hudson is this plugin built against? -->
     <relativePath>../pom.xml</relativePath>
   </parent>
@@ -12,7 +12,7 @@
   <groupId>com.coremedia.util</groupId>
   <artifactId>backlogtestlogger</artifactId>
   <version>0.1-SNAPSHOT</version>
-  <packaging>hpi</packaging>  
+  <packaging>hpi</packaging>
 
   <repositories>
     <repository>
@@ -58,26 +58,33 @@
 
 
   </dependencies>
-  <!-- user it with special behaviour. Every time, this plugin will be executed, new sources will be generated-->
-  <!-- usage mvn jaxb2:xjc -->
-  <build>
-    <plugins>      
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jaxb2-maven-plugin</artifactId>
-        <executions>          
-          <execution>
-            <goals>
-              <goal>xjc</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>          
-          <packageName>com.coremedia.util</packageName>
-          <!-- The name of your generated source package -->
-          <outputDirectory>${basedir}/src/generated/xsd/classes</outputDirectory>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  <profiles>
+    <profile>
+      <id>xjc</id>
+      <!-- user it with special behaviour. Every time, this plugin will be executed, new sources will be generated-->
+      <!-- usage mvn jaxb2:xjc -->
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jaxb2-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>xjc</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <packageName>com.coremedia.util</packageName>
+              <!-- The name of your generated source package -->
+              <outputDirectory>${basedir}/target/generated/xsd/classes</outputDirectory>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+
 </project>

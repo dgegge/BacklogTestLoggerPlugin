@@ -47,7 +47,7 @@ public class XMLReaderTest {
 
   private void testElement(JAXBElement element, XMLReader reader) {
 
-    List<Story> list = reader.getStories(element, System.out);
+    List<Story> list = reader.getStories(element);
     assertEquals(3, list.size());
     assertEquals(2, list.get(0).getTests().size());
   }

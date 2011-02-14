@@ -34,8 +34,10 @@ public class StoryContainer {
     return stories;
   }
 
-  
-
+  /**
+   * get successful stories
+   * @return successful stories
+   */
   public ArrayList<Story> getSuccessfulStories() {
     successfulStories = new ArrayList<Story>();
     for (Story story : this.getStories()) {
@@ -46,6 +48,10 @@ public class StoryContainer {
     return successfulStories;
   }
 
+  /**
+   * get failed stories
+   * @return failed stories
+   */
   public ArrayList<Story> getFailedStories() {
     failedStories = new ArrayList<Story>();
     for (Story story : this.getStories()) {
@@ -56,6 +62,10 @@ public class StoryContainer {
     return failedStories;
   }
 
+  /**
+   * get incomplete stories
+   * @return incomplete stories
+   */
   public ArrayList<Story> getIncompleteStories() {
     incompleteStories = new ArrayList<Story>();
     for (Story story : this.getStories()) {
@@ -66,6 +76,10 @@ public class StoryContainer {
     return incompleteStories;
   }
 
+  /**
+   * get untested stories
+   * @return untested stories
+   */
   public ArrayList<Story> getUntestedStories() {
     untestedStories = new ArrayList<Story>();
     for (Story story : this.getStories()) {
@@ -76,6 +90,10 @@ public class StoryContainer {
     return untestedStories;
   }
 
+  /**
+   * get average execution time of all tests
+   * @return average execution time
+   */
   public double getAvgExecutionTime() {
     double sumExecutionTime = 0;
     int count=0;

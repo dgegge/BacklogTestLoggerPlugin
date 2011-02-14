@@ -3,14 +3,15 @@ package com.coremedia.util.model.helper;
 import java.text.BreakIterator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: dgegenhe
- * Date: 28.01.2011
- * Time: 11:43:36
- * To change this template use File | Settings | File Templates.
+ * Helper class for strings
  */
 public class StringUtil {
 
+  /**
+   * Prints a pretty html string seperated by words
+   * @param string which should be made pretty
+   * @return pretty html string
+   */
   public static String makePrettyHtmlString(String string) {
     if (string == null) {
       return "";
@@ -40,13 +41,6 @@ public class StringUtil {
       result.append(tmp);
     }
 
-
-    /*while (tmp.length()>90) {
-            result.append(tmp.substring(0,90));
-            result.append("<br />");
-            tmp = tmp.substring(90);
-    }*/
     return result.toString();
-
   }
 }

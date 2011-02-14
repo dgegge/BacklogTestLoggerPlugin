@@ -36,12 +36,13 @@ public class ReportReader {
    * @throws BacklogTestLoggerParseException
    *          Thrown if the parsing fails.
    */
-  public ReportReader(URI is, PrintStream logger, Map<String, String> metrics) {
+  public ReportReader(URI is, PrintStream logger) {
     hudsonConsoleWriter = logger;
-    parse(is, metrics.values());
+    parse(is);
   }
 
-  private void parse(URI is, Collection<String> metrics) {
+
+  private void parse(URI is) {
     final String errMsg = "[BacklogTestLogger] Problem parsing Performance report file";
     if (is == null) {
       throw new BacklogTestLoggerParseException("Empty input stream");
@@ -49,7 +50,7 @@ public class ReportReader {
     try {
       XMLReader reader = new XMLReader(new Class[]{Stories.class, Story.class, SingleTest.class}, new File(getClass().getResource("/xsd/backlogtestlogger.xsd").getPath()));
       JAXBElement element = reader.unmarshal(is.getPath());
-      this.stories = reader.getStories(element, hudsonConsoleWriter);
+      this.stories = reader.getStories(element);
     } catch (JAXBException e) {
       hudsonConsoleWriter.println(errMsg + ": " + e.getMessage());
       e.printStackTrace(hudsonConsoleWriter);

@@ -39,12 +39,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
   private List<Story> incompletedStories = new ArrayList<Story>();
   private List<Story> untestedStories = new ArrayList<Story>();
 
-  private Map<String,SingleTest> tests = new HashMap<String,SingleTest>();
-
-  /**
-   * Parameters for the health report.
-   */
-  private final HealthDescriptor healthDescriptor;
+  private Map<String, SingleTest> tests = new HashMap<String, SingleTest>();
 
   private int numFailedStories;
   private int numSuccessedStories;
@@ -68,65 +63,6 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
 
   public String getDisplayName() {
     return BacklogTestLoggerPlugin.BUILD_DISPLAY_NAME;
-  }
-
-  /**
-   * You can see this method as the "main"-method. It is called whenever is build is made
-   * @param build
-   * @param files
-   * @param logger
-   * @param healthDescriptor
-   * @param metrics
-   */
-  public BacklogTestLoggerBuildAction(AbstractBuild<?, ?> build,
-                                      ArrayList<String> files, PrintStream logger,
-                                      HealthDescriptor healthDescriptor, Map<String, String> metrics) {
-    this.build = build;
-    /**
-     * Compute the healthDescription
-     */
-    this.healthDescriptor = healthDescriptor;
-    /**
-     * Log the metrics
-     */
-    if (metrics.keySet().size() > 0) {
-      logger.println("[BacklogTestLogger] The following metrics will be computed");
-    } else {
-      logger.println("[BacklogTestLogger] No metrics configured.");
-    }
-    for (String metric_name : metrics.keySet()) {
-      logger.println("[BacklogTestLogger] Metric : " + metric_name);
-    }
-
-    /**
-     * Parse the reports and create story-information
-     */
-    for (String file : files) {
-      String current_report = file;
-      URI is;
-      try {
-        is = build.getWorkspace().child(current_report).toURI();
-
-        logger.println("[BacklogTestLogger] Parsing Report : "
-                + current_report);
-        ReportReader rs = new ReportReader(is, logger, metrics);
-
-        this.stories.getStories().addAll(StoryHelper.calculateStates(rs.getStories()));
-
-        makeAllocationTestsToStories(this.stories.getStories());
-
-        allocateStories(this.stories.getStories());
-
-      } catch (IOException e) {
-        logger.println("[BacklogTestLogger] Impossible to analyse report "
-                + current_report + ", file can't be read.");
-        build.setResult(Result.UNSTABLE);
-      } catch (InterruptedException e) {
-        logger.println("[BacklogTestLogger] Impossible to analyse report "
-                + current_report + ", file can't be read.");
-        build.setResult(Result.UNSTABLE);
-      }
-    }
   }
 
   public AbstractBuild<?, ?> getBuild() {
@@ -206,23 +142,56 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     return stories.getAvgExecutionTime();
   }
 
-
   /**
-   * Returns the healthDescriptor.
+   * You can see this method as the "main"-method. It is called whenever is build is made
    *
-   * @return the healthDescriptor
+   * @param build
+   * @param files
+   * @param logger
    */
-  public HealthDescriptor getHealthDescriptor() {
-    return healthDescriptor;
+  public BacklogTestLoggerBuildAction(AbstractBuild<?, ?> build,
+                                      ArrayList<String> files, PrintStream logger) {
+    this.build = build;
+
+    /**
+     * Parse the reports and create story-information
+     */
+    for (String file : files) {
+      String current_report = file;
+      URI is;
+      try {
+        is = build.getWorkspace().child(current_report).toURI();
+
+        logger.println("[BacklogTestLogger] Parsing Report : "
+                + current_report);
+        ReportReader rs = new ReportReader(is, logger);
+
+        this.stories.getStories().addAll(StoryHelper.calculateStates(rs.getStories()));
+
+        makeAllocationTestsToStories(this.stories.getStories());
+
+        allocateStories(this.stories.getStories());
+
+      } catch (IOException e) {
+        logger.println("[BacklogTestLogger] Impossible to analyse report "
+                + current_report + ", file can't be read.");
+        build.setResult(Result.UNSTABLE);
+      } catch (InterruptedException e) {
+        logger.println("[BacklogTestLogger] Impossible to analyse report "
+                + current_report + ", file can't be read.");
+        build.setResult(Result.UNSTABLE);
+      }
+    }
   }
 
   /**
    * Allocates stories to tests
    * This is needed, because we also want to show the stories for each test
+   *
    * @param stories
    */
   private void makeAllocationTestsToStories(List<Story> stories) {
-    for (Story story :stories) {
+    for (Story story : stories) {
       for (SingleTest test : story.getTests()) {
         SingleTest singleTest = tests.get(test.getTestname());
 
@@ -232,7 +201,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
 
         singleTest.addStoryToTest(story);
 
-        tests.put(test.getTestname(),singleTest);
+        tests.put(test.getTestname(), singleTest);
 
       }
     }
@@ -240,31 +209,20 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
 
   /**
    * Calculates the state of a story due to its test-results
+   *
    * @param stories
    */
   private void allocateStories(List<Story> stories) {
-
     //successed
     this.successedStories = StoryHelper.allocateStoriesWithState(stories, StoryState.SUCCESS);
-
     //failed
     this.failedStories = StoryHelper.allocateStoriesWithState(stories, StoryState.FAILED);
-
     //incompleted
     this.incompletedStories = StoryHelper.allocateStoriesWithState(stories, StoryState.INCOMPLETE);
-
     //untested
     this.untestedStories = StoryHelper.allocateStoriesWithState(stories, StoryState.UNTESTED);
   }
 
-  /**
-   * Returns the associated health report builder.
-   *
-   * @return the associated health report builder
-   */
-  public final HealthReportBuilder getHealthReportBuilder() {
-    return new HealthReportBuilder(getHealthDescriptor());
-  }
 
   /**
    * @return the associated trend report
@@ -291,6 +249,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
 
   /**
    * creates a summary which could be implemented using it.summary in jelly files
+   *
    * @return Summary HTML
    */
   public String getSummary() {
@@ -332,7 +291,8 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
   }
 
   /**
-   * This is needed for the entry page. This method could be used by jelly files using it.smallSummary   
+   * This is needed for the entry page. This method could be used by jelly files using it.smallSummary
+   *
    * @return html-code with a tiny summary
    */
   public String getSmallSummary() {
@@ -373,6 +333,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
   /**
    * Returns the dynamic result
    * Calculates an object which the referrer is pointing to
+   *
    * @param link     the link to identify the sub page to show
    * @param request  Stapler request
    * @param response Stapler response
@@ -389,7 +350,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
       String storyId = StringUtils.substringAfter(link, "storyDetails.");
       resultat = new SingleStoryDetails(getOwner(), stories.getStoryWithId(storyId));
     }
-    
+
     return resultat;
   }
 

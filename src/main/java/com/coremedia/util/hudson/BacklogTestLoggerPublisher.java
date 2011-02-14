@@ -1,10 +1,7 @@
 package com.coremedia.util.hudson;
 
-import com.coremedia.util.hudson.projectsAction.BacklogTestLoggerFreestyleProjectAction;
-import com.coremedia.util.hudson.projectsAction.BacklogTestLoggerMatrixConfigurationAction;
-import com.coremedia.util.hudson.projectsAction.BacklogTestLoggerMatrixProjectAction;
+
 import hudson.Launcher;
-import hudson.matrix.*;
 import hudson.model.*;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
@@ -23,75 +20,40 @@ import java.util.*;
  *
  * @author Daniel Gegenheimer
  */
-public class BacklogTestLoggerPublisher extends HealthPublisher implements MatrixAggregatable {
+public class BacklogTestLoggerPublisher extends Publisher {
+
+  private String name;
+  public static final Descriptor<Publisher> DESCRIPTOR = new BacklogTestLoggerDescriptor();
 
   public String getName() {
     return name;
   }
 
-  public String getThreshold() {
-    return threshold;
-  }
-
-  public String getHealthy() {
-    return healthy;
-  }
-
-  public String getUnhealthy() {
-    return unhealthy;
-  }
-
-  public String getMetrics() {
-    return metrics;
-  }
-
-  private String name;
-  private String threshold;
-  private String healthy;
-  private String unhealthy;
-  private String metrics;
-
-  /**
-   * This method configures the plugin. it is called when a change under "configuration"-page in jenkins is made
-   * @param name
-   * @param threshold
-   * @param healthy
-   * @param unhealthy
-   * @param metrics
-   */
-  @DataBoundConstructor
-  public BacklogTestLoggerPublisher(String name, String threshold,
-                                    String healthy, String unhealthy, String metrics) {
-    this.name = name;
-    if (threshold != "") {
-      this.threshold = threshold;
-    } else {
-      this.threshold = "0";
-    }
-    if (healthy != "") {
-      this.healthy = healthy;
-    } else {
-      this.healthy = "0";
-    }
-    if (unhealthy != "") {
-      this.unhealthy = unhealthy;
-    } else {
-      this.unhealthy = "0";
-    }
-    this.metrics = metrics;
-  }
-
-
   public Descriptor<Publisher> getDescriptor() {
     return DESCRIPTOR;
   }
 
-  public MatrixAggregator createAggregator(final MatrixBuild matrixBuild, Launcher launcher, BuildListener listener) {
-    return new BacklogTestLoggerResultAggregator(matrixBuild, launcher, listener);
+  public BuildStepMonitor getRequiredMonitorService() {
+    return BuildStepMonitor.BUILD;
+  }
+
+  public Action getProjectAction(AbstractProject project) {
+    return null;
+  }
+
+  /**
+   * This method configures the plugin. it is called when a change under "configuration"-page in jenkins is made
+   *
+   * @param name
+   */
+  @DataBoundConstructor
+  public BacklogTestLoggerPublisher(String name) {
+    this.name = name;
   }
 
   /**
    * Performes the action. "main"-method equivalent
+   *
    * @param build
    * @param launcher
    * @param listener
@@ -103,41 +65,7 @@ public class BacklogTestLoggerPublisher extends HealthPublisher implements Matri
                          BuildListener listener) throws InterruptedException, IOException {
 
     PrintStream logger = listener.getLogger();
-    /**
-     * Compute metrics parametring
-     */
-    Map<String, String> list_metrics = new HashMap<String, String>();
-    //Parse the field to understand the metrics
-    //Format : name=xmlfield;
-    if (metrics != null && metrics.length() > 0) {
-      List<String> tmps = Arrays.asList(this.metrics.split(";"));
-      for (String tmp : tmps) {
-        List<String> f = Arrays.asList(tmp.split("="));
-        if (f.size() == 2 && f.get(0).trim().length() > 0 && f.get(1).length() > 0) {
-          list_metrics.put(f.get(0).trim(), f.get(1).trim());
-        }
-      }
-    }
-
-    /**
-     * Compute the HealthDescription
-     */
-    HealthDescriptor hl = new HealthDescriptor();
-    try {
-      hl.setMaxHealth(Integer.parseInt(unhealthy));
-    } catch (java.lang.NumberFormatException e) {
-      hl.setMaxHealth(0);
-    }
-    try {
-      hl.setMinHealth(Integer.parseInt(healthy));
-    } catch (java.lang.NumberFormatException e) {
-      hl.setMinHealth(0);
-    }
-    try {
-      hl.setUnstableHealth(Integer.parseInt(threshold));
-    } catch (java.lang.NumberFormatException e) {
-      hl.setUnstableHealth(0);
-    }
+    
 
     /**
      * Define if we must parse multiple file by searching for , in the name
@@ -174,35 +102,20 @@ public class BacklogTestLoggerPublisher extends HealthPublisher implements Matri
     }
 
     try {
-      build.addAction(new BacklogTestLoggerBuildAction(build, filesToParse,
-              logger, hl, list_metrics));
+      build.addAction(new BacklogTestLoggerBuildAction(build, filesToParse,logger));
 
     } catch (BacklogTestLoggerParseException gpe) {
-      logger
-              .println("[CapsAnalysis] generating reports analysis failed!");
+      logger.println("[CapsAnalysis] generating reports analysis failed!");
       build.setResult(Result.UNSTABLE);
     }
     return true;
   }
 
-  public Action getProjectAction(AbstractProject project) {
-    if (project instanceof MatrixProject) {
-      return new BacklogTestLoggerMatrixProjectAction((MatrixProject) project);
-    } else if (project instanceof MatrixConfiguration) {
-      return new BacklogTestLoggerMatrixConfigurationAction((MatrixConfiguration) project);
-    } else if (project instanceof FreeStyleProject) {
-      return new BacklogTestLoggerFreestyleProjectAction((FreeStyleProject) project);
-    }
-    return null;
-  }
-
-  public static final Descriptor<Publisher> DESCRIPTOR = new BacklogTestLoggerDescriptor();
-
   /**
    * Descriptor for the BacklogTestLogger plugin
    * Must extends BuildStepDescriptor since issue HUDSON-5612
    *
-   * @author gbossert
+   * @author Daniel Gegenheimer
    */
   public static final class BacklogTestLoggerDescriptor extends BuildStepDescriptor<Publisher> {
     protected BacklogTestLoggerDescriptor() {
@@ -219,7 +132,5 @@ public class BacklogTestLoggerPublisher extends HealthPublisher implements Matri
     }
   }
 
-  public BuildStepMonitor getRequiredMonitorService() {
-    return BuildStepMonitor.BUILD;
-  }
+
 }

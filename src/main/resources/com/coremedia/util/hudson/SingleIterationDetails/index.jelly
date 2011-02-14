@@ -1,212 +1,20 @@
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
-         xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <l:layout xmlns:g="/com/coremedia/util/hudson/tags">
-    <st:include it="${it.build}" page="sidepanel.jelly"/>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+         xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+         xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+  <l:layout norefresh="true">
+    <!-- TODO: Lookup, why sidepanel is not found
+    <st:include it="${it.owner}" page="sidepanel.jelly" from="${it.owner}"/>
+    -->
+    <st:include page="/tabview/css3.jelly"/>
     <l:main-panel>
-      <st:include page="/tabview/css.jelly"/>
-      <st:include page="/tabview/css2.jelly"/>
 
-      <h1>Backlog Test Report</h1>
-
-      <j:set var="yellowPer" value="${it.perIncompletedStories}"/>
-      <j:set var="redPer" value="${it.perFailedStories}"/>
-      <j:set var="bluePer" value="${it.perUntestedStories}"/>
-
-      <div class="progress-container">
-        <div id="green" style="width:${it.perSuccessedStories}%;">
-          ${it.perSuccessedStories}% (${it.numSuccessedStories})
-          <span id="green">Successed Stories: ${it.perSuccessedStories}% (${it.numSuccessedStories})</span>
-        </div>
-        <div id="yellow" style="width:${it.perIncompletedStories}%;">
-          ${it.perIncompletedStories}% (${it.numIncompletedStories})
-          <span id="yellow">Incompleted Stories: ${it.perIncompletedStories}% (${it.numIncompletedStories})</span>
-        </div>
-        <div id="red" style="width:${it.perFailedStories}%;">
-          ${it.perFailedStories}% (${it.numFailedStories})
-          <span id="red">Failed Stories: ${it.perFailedStories}% (${it.numFailedStories})</span>
-        </div>
-        <div id="blue" style="width:${it.perUntestedStories}%;">
-          ${it.perUntestedStories}% (${it.numUntestedStories})
-          <span id="blue">Untested Stories: ${it.perUntestedStories}% (${it.numUntestedStories})</span>
-        </div>
+      <div class="entete">
+        ${it.displayName}
       </div>
 
 
-      <br/>
-      <br/>
-      <br/>
-
-
-      <div class="content">
-        <div class="left">
-
-          <table>
-            <tr>
-              <td>
-
-              </td>
-              <td style="width:20px; text-align:left;">
-                <strong>Number of stories</strong>
-              </td>
-              <td style="width:15%">${it.numStories}</td>
-              <td style="width:15%">-</td>
-              <td style="width:15%">
-                <j:if test="${it.trendReport.numberOfStoriesHasIncrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_up_green.gif" alt="UP"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfStoriesHasDecrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_down_red.gif" alt="DOWN"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfStoriesStable}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
-                </j:if>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <img border="0" src="/plugin/backlogtestlogger/icons/bullet_green.png" alt="messages"/>
-              </td>
-              <td style="text-align:left;">
-                <strong>Successed stories</strong>
-              </td>
-              <td>${it.numSuccessedStories}</td>
-              <td>${it.perSuccessedStories}%</td>
-              <td style="width:15%">
-                <j:if test="${it.trendReport.numberOfSuccessedStoriesHasIncrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_up_green.gif" alt="UP"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfSuccessedStoriesHasDecrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_down_red.gif" alt="DOWN"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfSuccessedStoriesStable}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
-                </j:if>
-              </td>
-            </tr>
-            <tr>
-              <td>
-
-                <img border="0" src="/plugin/backlogtestlogger/icons/bullet_red.png" alt="messages"/>
-              </td>
-              <td style="text-align:left;">
-
-
-                <strong>
-                  Failed stories
-                </strong>
-              </td>
-              <td>${it.numFailedStories}</td>
-              <td>${it.perFailedStories}%</td>
-              <td style="width:15%">
-                <j:if test="${it.trendReport.numberOfFailedStoriesHasIncrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_up_green.gif" alt="UP"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfFailedStoriesHasDecrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_down_red.gif" alt="DOWN"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfFailedStoriesStable}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
-                </j:if>
-              </td>
-            </tr>
-
-
-            <tr>
-              <td>
-
-                <img border="0" src="/plugin/backlogtestlogger/icons/bullet_orange.png"
-                     alt="messages"/>
-
-              </td>
-              <td style="width:55%; text-align:left;">
-
-
-                <strong>
-                  Incompleted stories
-                </strong>
-              </td>
-              <td style="width:15%">${it.numIncompletedStories}</td>
-              <td style="width:15%">${it.perIncompletedStories}%</td>
-              <td style="width:15%">
-                <j:if test="${it.trendReport.numberOfIncompletedStoriesHasIncrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_up_green.gif" alt="UP"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfIncompletedStoriesHasDecrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_down_red.gif" alt="DOWN"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfIncompletedStoriesStable}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
-                </j:if>
-              </td>
-            </tr>
-            <tr>
-
-              <td>
-
-                <img border="0" src="/plugin/backlogtestlogger/icons/bullet_blue.png" alt="messages"/>
-
-              </td>
-              <td style="text-align:left;">
-
-
-                <strong>
-                  Untested stories
-                </strong>
-              </td>
-              <td>${it.numUntestedStories}</td>
-              <td>${it.perUntestedStories}%</td>
-              <td style="width:15%">
-                <j:if test="${it.trendReport.numberOfUntestedStoriesHasIncrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_up_green.gif" alt="UP"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfUntestedStoriesHasDecrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_down_red.gif" alt="DOWN"/>
-                </j:if>
-                <j:if test="${it.trendReport.numberOfUntestedStoriesStable}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
-                </j:if>
-              </td>
-            </tr>
-
-            <tr>
-
-              <td>
-
-                <img border="0" src="/plugin/backlogtestlogger/icons/clock.png" alt="messages" height="12px"
-                     width="12px"/>
-              </td>
-              <td style="text-align:left;">
-
-
-                <strong>
-                  Average Execution Time
-                </strong>
-              </td>
-              <td>${it.avgExecutionTime}</td>
-              <td>-</td>
-              <td style="width:15%">
-                <j:if test="${it.trendReport.avgExecutionTimeHasIncrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_up_red.gif" alt="UP"/>
-                </j:if>
-                <j:if test="${it.trendReport.avgExecutionTimeHasDecrease}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_down_green.gif" alt="DOWN"/>
-                </j:if>
-                <j:if test="${it.trendReport.avgExecutionTimeStable}">
-                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
-                </j:if>
-              </td>
-
-
-            </tr>
-          </table>
-        </div>
-
-        <br style="clear: left;"/>
-      </div>
-
-
-      <br style="clear:left;"/>
+      <h1>Stories</h1>
 
 
       <table style="padding:1px;" border="1px" class="pane sortable">
@@ -226,7 +34,9 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td><a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
+            <td>
+              <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
+            </td>
             <td>${story.text}</td>
             <td>
               <table>
@@ -293,7 +103,7 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td><a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
+            <td>${story.iteration}</td>
             <td>${story.text}</td>
             <td>
               <table>
@@ -335,9 +145,7 @@
                     <j:if test="${test.success == 'false'}">
                       <tr bgcolor="FF0000">
                         <td>
-
-                          <a class="errorlog">${test.shortenedError}</a>
-
+                          ${test.success}
                         </td>
                       </tr>
                     </j:if>
@@ -386,7 +194,7 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td><a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
+            <td>${story.iteration}</td>
             <td>${story.text}</td>
             <td>
               <table>
@@ -466,7 +274,7 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td><a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
+            <td>${story.iteration}</td>
             <td>${story.text}</td>
             <td colspan="4">
               No Tests for Story

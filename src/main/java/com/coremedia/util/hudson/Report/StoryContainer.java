@@ -6,6 +6,7 @@ import com.coremedia.util.model.pojo.Story;
 import com.coremedia.util.model.pojo.StoryState;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StoryContainer {
 
@@ -116,5 +117,19 @@ public class StoryContainer {
       }
     }
     return null;
+  }
+
+  public List<Story> getStoriesWithIteration(String string) {
+    List<Story> retList = new ArrayList<Story>();
+
+    for (Story story: this.getStories()) {
+      if (story.getIteration().equals(string)) {
+        retList.add(story);
+      }
+    }
+
+
+    return retList;
+
   }
 }

@@ -1,5 +1,6 @@
 package com.coremedia.util.hudson;
 
+import hudson.Extension;
 import hudson.Plugin;
 import hudson.tasks.BuildStep;
 
@@ -8,6 +9,7 @@ import hudson.tasks.BuildStep;
  *
  * @author Daniel Gegenheimer
  */
+@Extension
 public class BacklogTestLoggerPlugin extends Plugin {
 
   public static final String ICON_FILE_NAME = "graph.gif";
@@ -15,11 +17,5 @@ public class BacklogTestLoggerPlugin extends Plugin {
   public static final String BUILD_DISPLAY_NAME = "Backlog test report";
   public static final String CONFIG_DISPLAY_NAME = "Activate Backlogger for this project";
 
-  public static final String URL = "backlogtestlogger";
-
-
-  @Override
-  public void start() throws Exception {
-    BuildStep.PUBLISHERS.addRecorder(BacklogTestLoggerPublisher.DESCRIPTOR);
-  }
+  public static final String URL = "backlogtestlogger";  
 }

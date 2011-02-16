@@ -9,47 +9,64 @@
       <h1>Backlog Test Report</h1>
 
       <h3>All Stories</h3>
-      <div class="progress-container">
-        <div id="green" style="width:${it.perSuccessedStories}%;">
-          ${it.perSuccessedStories}% (${it.numSuccessedStories})
-          <span id="green">Successed Stories: ${it.perSuccessedStories}% (${it.numSuccessedStories})</span>
-        </div>
-        <div id="yellow" style="width:${it.perIncompletedStories}%;">
-          ${it.perIncompletedStories}% (${it.numIncompletedStories})
-          <span id="yellow">Incompleted Stories: ${it.perIncompletedStories}% (${it.numIncompletedStories})</span>
-        </div>
-        <div id="red" style="width:${it.perFailedStories}%;">
-          ${it.perFailedStories}% (${it.numFailedStories})
-          <span id="red">Failed Stories: ${it.perFailedStories}% (${it.numFailedStories})</span>
-        </div>
-        <div id="blue" style="width:${it.perUntestedStories}%;">
-          ${it.perUntestedStories}% (${it.numUntestedStories})
-          <span id="blue">Untested Stories: ${it.perUntestedStories}% (${it.numUntestedStories})</span>
-        </div>
-      </div>
+      <table class="progress-container">
+        <tr>
+          <td class="tdgreen" style="width:${it.perSuccessedStories}%;">
+            <a class="tooltip">
+              ${it.perSuccessedStories}% (${it.numSuccessedStories})
+              <span>Successed Stories: ${it.perSuccessedStories}% (${it.numSuccessedStories})</span>
+            </a>
+          </td>
+          <td class="tdyellow" style="width:${it.perIncompletedStories}%;">
+            <a class="tooltip">
+              ${it.perIncompletedStories}% (${it.numIncompletedStories})
+              <span id="yellow">Incompleted Stories: ${it.perIncompletedStories}% (${it.numIncompletedStories})</span>
+            </a>
+          </td>
+          <td class="tdred" style="width:${it.perFailedStories}%;">
+            <a class="tooltip">
+              ${it.perFailedStories}% (${it.numFailedStories})
+              <span id="red">Failed Stories: ${it.perFailedStories}% (${it.numFailedStories})</span>
+            </a>
+          </td>
+          <td class="tdblue" style="width:${it.perUntestedStories}%;">
+            <a class="tooltip">
+              ${it.perUntestedStories}% (${it.numUntestedStories})
+              <span id="blue">Untested Stories: ${it.perUntestedStories}% (${it.numUntestedStories})</span>
+            </a>
+          </td>
+        </tr>
+      </table>
 
       <br/>
       <br/>
       <br/>
 
       <h3>Only Tested Stories</h3>
-      <div class="progress-container">
-        <div id="green" style="width:${it.perSuccessedStoriesWithoutUntested}%;">
-          ${it.perSuccessedStoriesWithoutUntested}% (${it.numSuccessedStories})
-          <span id="green">Successed Stories: ${it.perSuccessedStoriesWithoutUntested}% (${it.numSuccessedStories})
-          </span>
-        </div>
-        <div id="yellow" style="width:${it.perIncompletedStoriesWithoutUntested}%;">
-          ${it.perIncompletedStoriesWithoutUntested}% (${it.numIncompletedStories})
-          <span id="yellow">Incompleted Stories: ${it.perIncompletedStoriesWithoutUntested}%
-            (${it.numIncompletedStories})
-          </span>
-        </div>
-        <div id="red" style="width:${it.perFailedStoriesWithoutUntested}%;">
-          ${it.perFailedStoriesWithoutUntested}% (${it.numFailedStories})
-          <span id="red">Failed Stories: ${it.perFailedStoriesWithoutUntested}% (${it.numFailedStories})</span>
-        </div>
-      </div>
+      <table class="progress-container">
+        <tr>
+          <td class="tdgreen" style="width:${it.perSuccessedStoriesWithoutUntested}%;">
+            <a class="tooltip">
+              ${it.perSuccessedStoriesWithoutUntested}% (${it.numSuccessedStories})
+              <span>Successed Stories: ${it.perSuccessedStoriesWithoutUntested}% (${it.numSuccessedStories})</span>
+            </a>
+          </td>
+          <td class="tdyellow" style="width:${it.perIncompletedStoriesWithoutUntested}%;">
+            <a class="tooltip">
+              ${it.perIncompletedStoriesWithoutUntested}% (${it.numIncompletedStories})
+              <span id="yellow">Incompleted Stories: ${it.perIncompletedStoriesWithoutUntested}%
+                (${it.numIncompletedStories})
+              </span>
+            </a>
+          </td>
+          <td class="tdred" style="width:${it.perFailedStoriesWithoutUntested}%;">
+            <a class="tooltip">
+              ${it.perFailedStoriesWithoutUntested}% (${it.numFailedStories})
+              <span id="red">Failed Stories: ${it.perFailedStoriesWithoutUntested}% (${it.numFailedStories})</span>
+            </a>
+          </td>
+        </tr>
+      </table>
 
 
       <br/>
@@ -191,6 +208,75 @@
               </td>
             </tr>
 
+
+            <tr>
+              <td></td>
+              <td style="text-align:left;">
+                <strong>
+                  <a href="./multiStoryDetails.AUTOMATIC">Automated stories</a>
+                </strong>
+              </td>
+              <td>${it.numAutomatedStories}</td>
+              <td>${it.perAutomatedStories}%</td>
+              <td style="width:15%">
+                <j:if test="${it.trendReport.numberOfAutomatedStoriesHasIncrease}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_up_green.gif" alt="UP"/>
+                </j:if>
+                <j:if test="${it.trendReport.numberOfAutomatedStoriesDecrease}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_down_red.gif" alt="DOWN"/>
+                </j:if>
+                <j:if test="${it.trendReport.numberOfAutomatedStoriesIsStable}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
+                </j:if>
+              </td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td style="text-align:left;">
+                <strong>
+                  <a href="./multiStoryDetails.MANUAL">
+                    Manual stories
+                  </a>
+                </strong>
+              </td>
+              <td>${it.numManualStories}</td>
+              <td>${it.perManualStories}%</td>
+              <td style="width:15%">
+                <j:if test="${it.trendReport.numberOfManualStoriesHasIncrease}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_up_green.gif" alt="UP"/>
+                </j:if>
+                <j:if test="${it.trendReport.numberOfManualStoriesDecrease}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_down_red.gif" alt="DOWN"/>
+                </j:if>
+                <j:if test="${it.trendReport.numberOfManualStoriesIsStable}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
+                </j:if>
+              </td>
+            </tr>
+
+            <tr>
+              <td></td>
+              <td style="text-align:left;">
+                <strong>
+                  <a href="./multiStoryDetails.NOT">Not testable stories</a>
+                </strong>
+              </td>
+              <td>${it.numNotTestableStories}</td>
+              <td>${it.perNotTestableStories}%</td>
+              <td style="width:15%">
+                <j:if test="${it.trendReport.numberOfNotTestableStoriesHasIncrease}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_up_green.gif" alt="UP"/>
+                </j:if>
+                <j:if test="${it.trendReport.numberOfNotTestableStoriesDecrease}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_down_red.gif" alt="DOWN"/>
+                </j:if>
+                <j:if test="${it.trendReport.numberOfNotTestableStoriesIsStable}">
+                  <img src="/plugin/backlogtestlogger/icons/arrow_stable_black.gif" alt="STABLE"/>
+                </j:if>
+              </td>
+            </tr>
+
             <tr>
 
               <td>
@@ -236,6 +322,7 @@
           <td class="pane-header" title="Targets">Story Id</td>
           <td class="pane-header" title="text">Iteration</td>
           <td class="pane-header" title="text">Story Text</td>
+          <td class="pane-header" title="testable">Testable</td>
           <td class="pane-header" title="Test name">Tests</td>
           <td class="pane-header" title="Success State">Success State</td>
           <td class="pane-header" title="Done status">Done State</td>
@@ -244,7 +331,7 @@
         </tr>
         <!-- ################# SUCCESS #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.successedStories}">
-          <tr bgcolor="00FF00">
+          <tr class="trgreen">
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
@@ -252,10 +339,11 @@
               <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
             </td>
             <td>${story.text}</td>
+            <td><a href="./multiStoryDetails.${story.testable}">${story.testable}</a></td>
             <td>
               <table>
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
-                  <tr bgcolor="00FF00">
+                  <tr class="trgreen">
                     <td>
                       <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                     </td>
@@ -268,12 +356,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
@@ -286,12 +374,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
@@ -313,7 +401,7 @@
 
         <!-- ################# FAILED #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.failedStories}">
-          <tr bgcolor="FF0000">
+          <tr class="trred">
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
@@ -321,12 +409,13 @@
               <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
             </td>
             <td>${story.text}</td>
+            <td><a href="./multiStoryDetails.${story.testable}">${story.testable}</a></td>
             <td>
               <table>
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <j:if test="${test.success == 'true'}">
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>
                           <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
@@ -334,7 +423,7 @@
                     </j:if>
 
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>
                           <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
@@ -344,7 +433,7 @@
 
                   </j:if>
                   <j:if test="${test.success == 'false'}">
-                    <tr bgcolor="FF0000">
+                    <tr class="trred">
                       <td>
                         <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                       </td>
@@ -359,7 +448,7 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>
 
                           <a class="errorlog">${test.shortenedError}</a>
@@ -368,7 +457,7 @@
                       </tr>
                     </j:if>
                     <j:if test="${test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
@@ -381,12 +470,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
@@ -408,7 +497,7 @@
 
         <!-- ################# INCOMPLETE #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.incompletedStories}">
-          <tr bgcolor="FFFF00">
+          <tr class="tryellow">
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
@@ -416,12 +505,13 @@
               <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
             </td>
             <td>${story.text}</td>
+            <td><a href="./multiStoryDetails.${story.testable}">${story.testable}</a></td>
             <td>
               <table>
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <j:if test="${test.success == 'true'}">
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>
                           <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
@@ -429,7 +519,7 @@
                     </j:if>
 
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>
                           <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
@@ -445,12 +535,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
@@ -463,12 +553,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
@@ -490,7 +580,7 @@
 
         <!-- ################# UNTESTED #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.untestedStories}">
-          <tr bgcolor="00FFFF">
+          <tr class="trblue">
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
@@ -498,6 +588,7 @@
               <a href="./iterationDetails.${story.iteration}">${story.iteration}</a>
             </td>
             <td>${story.text}</td>
+            <td><a href="./multiStoryDetails.${story.testable}">${story.testable}</a></td>
             <td colspan="4">
               No Tests for Story
             </td>

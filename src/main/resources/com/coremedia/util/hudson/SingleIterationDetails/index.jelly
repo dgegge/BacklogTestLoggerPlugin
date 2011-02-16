@@ -30,7 +30,7 @@
         </tr>
         <!-- ################# SUCCESS #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.successedStories}">
-          <tr bgcolor="00FF00">
+          <tr class="trgreen">
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
@@ -41,7 +41,7 @@
             <td>
               <table>
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
-                  <tr bgcolor="00FF00">
+                  <tr class="trgreen">
                     <td>
                       <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                     </td>
@@ -54,12 +54,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
@@ -72,12 +72,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
@@ -99,7 +99,7 @@
 
         <!-- ################# FAILED #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.failedStories}">
-          <tr bgcolor="FF0000">
+          <tr class="trred">
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
@@ -110,7 +110,7 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <j:if test="${test.success == 'true'}">
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>
                           <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
@@ -118,7 +118,7 @@
                     </j:if>
 
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>
                           <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
@@ -128,7 +128,7 @@
 
                   </j:if>
                   <j:if test="${test.success == 'false'}">
-                    <tr bgcolor="FF0000">
+                    <tr class="trred">
                       <td>
                         <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                       </td>
@@ -143,14 +143,14 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>
                           ${test.success}
                         </td>
                       </tr>
                     </j:if>
                     <j:if test="${test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
@@ -163,12 +163,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
@@ -190,7 +190,7 @@
 
         <!-- ################# INCOMPLETE #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.incompletedStories}">
-          <tr bgcolor="FFFF00">
+          <tr class="tryellow">
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
@@ -201,7 +201,7 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <j:if test="${test.success == 'true'}">
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>
                           <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
@@ -209,7 +209,7 @@
                     </j:if>
 
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>
                           <a class="info_bulle" href="./testDetails.${test.nameForUrl}">${test.adaptedName}</a>
                         </td>
@@ -225,12 +225,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.success}</td>
                       </tr>
                     </j:if>
@@ -243,12 +243,12 @@
                 <j:forEach indexVar="index_test" var="test" items="${story.tests}">
                   <tr>
                     <j:if test="${test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${test.done}</td>
                       </tr>
                     </j:if>
@@ -270,7 +270,7 @@
 
         <!-- ################# UNTESTED #################################### -->
         <j:forEach indexVar="index_story" var="story" items="${it.untestedStories}">
-          <tr bgcolor="00FFFF">
+          <tr class="trblue">
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>

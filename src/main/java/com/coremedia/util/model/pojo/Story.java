@@ -55,6 +55,8 @@ public class Story {
   protected String iteration;
   @XmlAttribute
   protected String comment;
+  @XmlAttribute(required = true)
+  protected Testable testable;
 
 
   @XmlTransient
@@ -192,7 +194,28 @@ public class Story {
   }
 
   /**
+   * Gets the value of the testable property.
+   *
+   * @return possible object is
+   *         {@link Testable }
+   */
+  public Testable getTestable() {
+    return testable;
+  }
+
+  /**
+   * Sets the value of the testable property.
+   *
+   * @param value allowed object is
+   *              {@link Testable }
+   */
+  public void setTestable(Testable value) {
+    this.testable = value;
+  }
+
+  /**
    * gets SingleTest with handled full name (classname.methodname)
+   *
    * @param name
    * @return
    */

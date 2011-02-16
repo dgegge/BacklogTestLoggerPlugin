@@ -7,6 +7,7 @@
     <st:include it="${it.owner}" page="sidepanel.jelly" from="${it.owner}"/>
     -->
     <st:include page="/tabview/css3.jelly"/>
+    <st:include page="/tabview/css2.jelly"/>
     <l:main-panel>
 
       <div class="entete">
@@ -64,7 +65,7 @@
       </table>
 
 
-      <j:if test="$it.story.success != 'UNTESTED'">
+      <j:if test="${it.story.state != 'UNTESTED'}">
         <h1>Tests of Story</h1>
         <table style="padding:1px;" border="1px" class="pane sortable">
           <tr>
@@ -77,7 +78,7 @@
           <j:forEach indexVar="index_story" var="test" items="${it.story.tests}">
             <j:if test="${test.success == 'true'}">
               <j:if test="${test.done == 'true'}">
-                <tr bgcolor="00FF00">
+                <tr class="trgreen">
                   <td>
                     <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
                   </td>
@@ -87,27 +88,27 @@
                 </tr>
               </j:if>
               <j:if test="${test.done == 'false'}">
-                <tr bgcolor="FFFF00">
+                <tr class="tryellow">
                   <td>
                     <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
                   </td>
-                  <td bgcolor="00FF00">${test.success}</td>
+                  <td class="trgreen">${test.success}</td>
                   <td>${test.done}</td>
                   <td>${test.executiontime}</td>
                 </tr>
               </j:if>
             </j:if>
             <j:if test="${test.success == 'false'}">
-              <tr bgcolor="FF0000">
+              <tr class="trred">
                 <td>
                   <a href="./testDetails.${test.nameForUrl}">${test.clazz}.${test.method}</a>
                 </td>
                 <td>${test.success}</td>
                 <j:if test="${test.done == 'true'}">
-                  <td bgcolor="00FF00">${test.done}</td>
+                  <td class="trgreen">${test.done}</td>
                 </j:if>
                 <j:if test="${test.done == 'false'}">
-                  <td bgcolor="FFFF00">${test.done}</td>
+                  <td class="tryellow">${test.done}</td>
                 </j:if>
                 <td>${test.executiontime}</td>
               </tr>

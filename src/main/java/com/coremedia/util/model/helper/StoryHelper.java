@@ -3,6 +3,7 @@ package com.coremedia.util.model.helper;
 import com.coremedia.util.model.pojo.SingleTest;
 import com.coremedia.util.model.pojo.Story;
 import com.coremedia.util.model.pojo.StoryState;
+import com.coremedia.util.model.pojo.Testable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,18 @@ public class StoryHelper {
 
     for (Story story : stories) {
       if (story.getState().toString().equals(state.toString())) {
+        retList.add(story);
+      }
+    }
+
+    return retList;
+  }
+
+  public static List<Story> calculateStoriesWithTestable(List<Story> stories, Testable testable) {
+    List<Story> retList = new ArrayList<Story>();
+
+    for (Story story : stories) {
+      if (story.getTestable().equals(testable)) {
         retList.add(story);
       }
     }

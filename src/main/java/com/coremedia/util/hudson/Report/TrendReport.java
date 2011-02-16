@@ -1,5 +1,8 @@
 package com.coremedia.util.hudson.Report;
 
+import com.coremedia.util.model.helper.StoryHelper;
+import com.coremedia.util.model.pojo.Testable;
+
 /**
  * Class representation of trend between two reports
  *
@@ -165,7 +168,7 @@ public class TrendReport {
     return (actualResult.getSuccessfulStories().size() / actualResult.getStories().size() / 100) >
             (oldResult.getSuccessfulStories().size() / oldResult.getStories().size() / 100);
   }
-  
+
   /**
    * @return true if the percent of passed test has increase
    */
@@ -173,8 +176,6 @@ public class TrendReport {
     return (actualResult.getFailedStories().size() / actualResult.getStories().size() / 100) >
             (oldResult.getFailedStories().size() / oldResult.getStories().size() / 100);
   }
-
-
 
 
   /**
@@ -194,6 +195,59 @@ public class TrendReport {
             (oldResult.getUntestedStories().size() / oldResult.getStories().size() / 100);
   }
 
+  public boolean isNumberOfAutomatedStoriesHasIncrease() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.AUTOMATIC).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.AUTOMATIC).size();
+    return _new > _old;
+  }
+
+  public boolean isNumberOfAutomatedStoriesIsStable() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.AUTOMATIC).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.AUTOMATIC).size();
+    return _new == _old;
+  }
+
+  public boolean isNumberOfAutomatedStoriesDecrease() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.AUTOMATIC).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.AUTOMATIC).size();
+    return _new < _old;
+  }
+
+  public boolean isNumberOfManualStoriesHasIncrease() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.MANUAL).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.MANUAL).size();
+    return _new > _old;
+  }
+
+  public boolean isNumberOfManualStoriesIsStable() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.MANUAL).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.MANUAL).size();
+    return _new == _old;
+  }
+
+  public boolean isNumberOfManualStoriesDecrease() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.MANUAL).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.MANUAL).size();
+    return _new < _old;
+  }
+
+  public boolean isNumberOfNotTestableStoriesHasIncrease() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.NOT).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.NOT).size();
+    return _new > _old;
+  }
+
+  public boolean isNumberOfNotTestableStoriesIsStable() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.NOT).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.NOT).size();
+    return _new == _old;
+  }
+
+  public boolean isNumberOfNotTestableStoriesDecrease() {
+    int _new = StoryHelper.calculateStoriesWithTestable(actualResult.getStories(), Testable.NOT).size();
+    int _old = StoryHelper.calculateStoriesWithTestable(oldResult.getStories(), Testable.NOT).size();
+    return _new < _old;
+  }
 
 
 }

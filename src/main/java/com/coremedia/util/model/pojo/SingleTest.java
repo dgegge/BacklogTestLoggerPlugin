@@ -80,7 +80,7 @@ public class SingleTest {
     result.append(getSuccess());
     if (error != null) {
       result.append("<span>");
-      result.append(error.getValue());
+      result.append(error.getException());
       result.append("</span>");
       return result.toString();
     } else {

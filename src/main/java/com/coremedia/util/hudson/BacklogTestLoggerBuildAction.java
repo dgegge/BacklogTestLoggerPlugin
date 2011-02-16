@@ -7,6 +7,7 @@ import com.coremedia.util.model.helper.StoryHelper;
 import com.coremedia.util.model.pojo.SingleTest;
 import com.coremedia.util.model.pojo.Story;
 import com.coremedia.util.model.pojo.StoryState;
+import com.coremedia.util.model.pojo.Testable;
 import hudson.model.AbstractBuild;
 import hudson.model.Result;
 import org.apache.commons.lang.StringUtils;
@@ -155,6 +156,96 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     return stories.getAvgExecutionTime();
   }
 
+  public List<Story> getAutomatedStories() {
+    return StoryHelper.calculateStoriesWithTestable(getStories(), Testable.AUTOMATIC);
+  }
+
+  public List<Story> getManualStories() {
+    return StoryHelper.calculateStoriesWithTestable(getStories(), Testable.MANUAL);
+  }
+
+  public List<Story> getNotTestableStories() {
+    return StoryHelper.calculateStoriesWithTestable(getStories(), Testable.NOT);
+  }
+
+  public int getNumAutomatedStories() {
+    return getAutomatedStories().size();
+  }
+
+  public double getPerAutomatedStories() {
+    double percent = ((double) getNumAutomatedStories() / getNumStories()) * 100;
+    return MathHelper.floor(percent, 2);
+  }
+
+  public int getNumManualStories() {
+    return getManualStories().size();
+  }
+
+  public double getPerManualStories() {
+    double percent = ((double) getNumManualStories() / getNumStories()) * 100;
+    return MathHelper.floor(percent, 2);
+  }
+
+  public int getNumNotTestableStories() {
+    return getNotTestableStories().size();
+  }
+
+  public double getPerNotTestableStories() {
+    double percent = ((double) getNumNotTestableStories() / getNumStories()) * 100;
+    return MathHelper.floor(percent, 2);
+  }
+
+
+  public List<Story> getSuccessedAutomaticStories() {
+    return StoryHelper.calculateStoriesWithTestable(getSuccessedStories(), Testable.AUTOMATIC);
+  }
+
+  public List<Story> getSuccessedManualStories() {
+    return StoryHelper.calculateStoriesWithTestable(getSuccessedStories(), Testable.MANUAL);
+  }
+
+  public List<Story> getSuccessedNotTestableStories() {
+    return StoryHelper.calculateStoriesWithTestable(getSuccessedStories(), Testable.NOT);
+  }
+
+  public List<Story> getIncompleteAutomaticStories() {
+    return StoryHelper.calculateStoriesWithTestable(getIncompletedStories(), Testable.AUTOMATIC);
+  }
+
+  public List<Story> getIncompleteManualStories() {
+    return StoryHelper.calculateStoriesWithTestable(getIncompletedStories(), Testable.MANUAL);
+  }
+
+  public List<Story> getIncompleteNotTestableStories() {
+    return StoryHelper.calculateStoriesWithTestable(getIncompletedStories(), Testable.NOT);
+  }
+
+  public List<Story> getFailedAutomaticStories() {
+    return StoryHelper.calculateStoriesWithTestable(getFailedStories(), Testable.AUTOMATIC);
+  }
+
+  public List<Story> getFailedManualStories() {
+    return StoryHelper.calculateStoriesWithTestable(getFailedStories(), Testable.MANUAL);
+  }
+
+  public List<Story> getFailedNotTestableStories() {
+    return StoryHelper.calculateStoriesWithTestable(getFailedStories(), Testable.NOT);
+  }
+
+  public List<Story> getUntestedAutomaticStories() {
+    return StoryHelper.calculateStoriesWithTestable(getUntestedStories(), Testable.AUTOMATIC);
+  }
+
+  public List<Story> getUntestedManualStories() {
+    return StoryHelper.calculateStoriesWithTestable(getUntestedStories(), Testable.MANUAL);
+  }
+
+  public List<Story> getUntestedNotTestableStories() {
+    return StoryHelper.calculateStoriesWithTestable(getUntestedStories(), Testable.NOT);
+  }
+
+
+
   /**
    * You can see this method as the "main"-method. It is called whenever is build is made
    *
@@ -278,7 +369,7 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
     } else if (link.startsWith("iterationDetails.")) {
       String iteration = StringUtils.substringAfter(link, "iterationDetails.");
       resultat = new SingleIterationDetails(getOwner(), stories.getStoriesWithIteration(iteration), iteration);
-    } else if (link.startsWith("multiStoryDetails."))  {
+    } else if (link.startsWith("multiStoryDetails.")) {
       String state = StringUtils.substringAfter(link, "multiStoryDetails.");
       if (StoryState.SUCCESS.toString().equalsIgnoreCase(state)) {
         resultat = new MultiStoryDetails(getOwner(), stories.getSuccessfulStories(), StoryState.SUCCESS);
@@ -287,7 +378,13 @@ public class BacklogTestLoggerBuildAction extends AbstractBacklogTestLoggerActio
       } else if (StoryState.INCOMPLETE.toString().equalsIgnoreCase(state)) {
         resultat = new MultiStoryDetails(getOwner(), stories.getIncompleteStories(), StoryState.INCOMPLETE);
       } else if (StoryState.UNTESTED.toString().equalsIgnoreCase(state)) {
-        resultat = new MultiStoryDetails(getOwner(), stories.getUntestedStories(), StoryState.UNTESTED);        
+        resultat = new MultiStoryDetails(getOwner(), stories.getUntestedStories(), StoryState.UNTESTED);
+      } else if (Testable.AUTOMATIC.toString().equalsIgnoreCase(state)) {
+        resultat = new MultiStoryDetails(getOwner(), StoryHelper.calculateStoriesWithTestable(getStories(),Testable.AUTOMATIC), Testable.AUTOMATIC);
+      } else if (Testable.MANUAL.toString().equalsIgnoreCase(state)) {
+        resultat = new MultiStoryDetails(getOwner(), StoryHelper.calculateStoriesWithTestable(getStories(),Testable.MANUAL), Testable.MANUAL);
+      } else if (Testable.NOT.toString().equalsIgnoreCase(state)) {
+        resultat = new MultiStoryDetails(getOwner(), StoryHelper.calculateStoriesWithTestable(getStories(),Testable.NOT), Testable.NOT);
       }
     }
 

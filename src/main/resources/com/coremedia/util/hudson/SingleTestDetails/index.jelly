@@ -7,6 +7,7 @@
     <st:include it="${it.owner}" page="sidepanel.jelly" from="${it.owner}"/>
     -->
     <st:include page="/tabview/css3.jelly"/>
+    <st:include page="/tabview/css2.jelly"/>
     <l:main-panel>
 
       <div class="entete">
@@ -92,7 +93,7 @@
 
         <j:forEach indexVar="index_story" var="story" items="${it.test.affectedStories}">
           <j:if test="${story.state == 'SUCCESS'}">
-            <tr bgcolor="00FF00">
+            <tr class="trgreen">
               <td>
                 <a href="./storyDetails.${story.id}">${story.id}</a>
               </td>
@@ -102,12 +103,12 @@
                 <table>
                   <tr>
                     <j:if test="${it.test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>${it.test.success}</td>
                       </tr>
                     </j:if>
                     <j:if test="${it.test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${it.test.success}</td>
                       </tr>
                     </j:if>
@@ -118,12 +119,12 @@
                 <table>
                   <tr>
                     <j:if test="${it.test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${it.test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${it.test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${it.test.done}</td>
                       </tr>
                     </j:if>
@@ -134,7 +135,7 @@
           </j:if>
 
           <j:if test="${story.state == 'FAILED'}">
-            <tr bgcolor="FF0000">
+            <tr class="trred">
               <td>
                 <a href="./storyDetails.${story.id}">${story.id}</a>
               </td>
@@ -144,12 +145,12 @@
                 <table>
                   <tr>
                     <j:if test="${it.test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>${it.test.success}</td>
                       </tr>
                     </j:if>
                     <j:if test="${it.test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${it.test.success}</td>
                       </tr>
                     </j:if>
@@ -160,12 +161,12 @@
                 <table>
                   <tr>
                     <j:if test="${it.test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${it.test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${it.test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${it.test.done}</td>
                       </tr>
                     </j:if>
@@ -176,7 +177,7 @@
           </j:if>
 
           <j:if test="${story.state == 'INCOMPLETE'}">
-            <tr bgcolor="FFFF00">
+            <tr class="tryellow">
               <td>
                 <a href="./storyDetails.${story.id}">${story.id}</a>
               </td>
@@ -186,12 +187,12 @@
                 <table>
                   <tr>
                     <j:if test="${it.test.success == 'false'}">
-                      <tr bgcolor="FF0000">
+                      <tr class="trred">
                         <td>${it.test.success}</td>
                       </tr>
                     </j:if>
                     <j:if test="${it.test.success == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${it.test.success}</td>
                       </tr>
                     </j:if>
@@ -202,12 +203,12 @@
                 <table>
                   <tr>
                     <j:if test="${it.test.done == 'false'}">
-                      <tr bgcolor="FFFF00">
+                      <tr class="tryellow">
                         <td>${it.test.done}</td>
                       </tr>
                     </j:if>
                     <j:if test="${it.test.done == 'true'}">
-                      <tr bgcolor="00FF00">
+                      <tr class="trgreen">
                         <td>${it.test.done}</td>
                       </tr>
                     </j:if>

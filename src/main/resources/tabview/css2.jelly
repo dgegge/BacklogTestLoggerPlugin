@@ -1,6 +1,78 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
          xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
   <style type="text/css">
+
+    a.tooltip {
+      position: relative; /*sehr wichtig!*/
+      z-index: 24;
+      color: #000;
+      text-decoration: none
+    }
+
+    a.tooltip:hover {
+      z-index: 25;
+      background-color: #cccccc;
+      cursor: default;
+    }
+
+    a.tooltip span {
+      display: none
+    }
+
+    a.tooltip:hover span {
+      display: block;
+      position: absolute;
+      top: 2em;
+      left: 2em;
+      width: 15em;
+      border: 1px solid #0cf;
+      background-color: #cff;
+      color: #000;
+      text-align: center
+    }
+
+    table.progress-container {
+      border: 1px solid #ccc;
+      width: 1000px;
+      margin: 2px 5px 2px 0;
+      padding: 1px;
+      float: left;
+      background: white;
+      color: #555;
+    }
+
+    .trgreen {
+      background: #ccffcc;
+    }
+
+    .trred {
+      background: #ff9999;
+    }
+
+    .tryellow {
+      background: #ffff99;
+    }
+
+    .trblue {
+     background: #00cccc;
+    }
+
+    .tdgreen {
+      background: #ccffcc;
+    }
+
+    .tdred {
+      background: #ff9999;
+    }
+
+    .tdyellow {
+      background: #ffff99;
+    }
+
+    .tdblue {
+      background: #00cccc;
+    }
+
     h1 {
       font: 180% Arial, Helvetica, sans-serif;
       color: #555;
@@ -40,13 +112,7 @@
     }
 
     div.progress-container {
-      border: 1px solid #ccc;
-      width: 100%;
-      margin: 2px 5px 2px 0;
-      padding: 1px;
-      float: left;
-      background: white;
-      color: #555;
+
     }
 
     div.progress-container>div#blue {
@@ -100,7 +166,7 @@
       cursor: default;
     }
 
-    div.progress-container>div:hover {
+    div.progress-containerdiv:hover {
       text-decoration: underline;
     }
 
@@ -141,7 +207,7 @@
 
       margin: 2px 5px 2px 0;
       padding: 1px;
-      width: 100%;
+      width: 1000px;
       border: 1px solid #ccc;
       color: #555;
     }
@@ -209,6 +275,7 @@
       padding: 5px;
       background: #DDEEFF;
       border: 1px solid #6699FF;
+      z-index: 10000;
     }
 
     a.info_bulle:hover span, a.info_bulle:focus span, a.info_bulle:active span {
@@ -254,8 +321,6 @@
     a.errorlog {
       position: relative;
     }
-
-
 
 
   </style>

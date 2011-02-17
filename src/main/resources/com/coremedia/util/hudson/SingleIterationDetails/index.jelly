@@ -3,10 +3,11 @@
          xmlns:f="/lib/form" xmlns:i="jelly:fmt">
 
   <l:layout norefresh="true">
-    <!-- TODO: Lookup, why sidepanel is not found
-    <st:include it="${it.owner}" page="sidepanel.jelly" from="${it.owner}"/>
-    -->
+    <!-- TODO: Lookup, why sidepanel is not found  -->
+    <st:include it="${it._owner}" page="sidepanel.jelly" from="${it._owner}"/>
+
     <st:include page="/tabview/css3.jelly"/>
+    <st:include page="/tabview/css2.jelly"/>
     <l:main-panel>
 
       <div class="entete">
@@ -103,7 +104,7 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td>${story.iteration}</td>
+            <td> <a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
             <td>${story.text}</td>
             <td>
               <table>
@@ -194,7 +195,7 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td>${story.iteration}</td>
+            <td> <a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
             <td>${story.text}</td>
             <td>
               <table>
@@ -274,7 +275,7 @@
             <td>
               <a href="./storyDetails.${story.id}">${story.id}</a>
             </td>
-            <td>${story.iteration}</td>
+            <td> <a href="./iterationDetails.${story.iteration}">${story.iteration}</a></td>
             <td>${story.text}</td>
             <td colspan="4">
               No Tests for Story

@@ -2,10 +2,9 @@
          xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
          xmlns:f="/lib/form" xmlns:i="jelly:fmt">
 
-  <l:layout norefresh="true">
-    <!-- TODO: Lookup, why sidepanel is not found
-    <st:include it="${it.owner}" page="sidepanel.jelly" from="${it.owner}"/>
-    -->
+  <l:layout norefresh="true">    
+    <st:include it="${it._owner}" page="sidepanel.jelly" from="${it._owner}"/>
+
     <st:include page="/tabview/css3.jelly"/>
     <st:include page="/tabview/css2.jelly"/>
     <l:main-panel>

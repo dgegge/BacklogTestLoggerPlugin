@@ -37,10 +37,6 @@ public class BacklogTestLoggerPublisher extends Publisher {
     return BuildStepMonitor.BUILD;
   }
 
-  public Action getProjectAction(AbstractProject project) {
-    return null;
-  }
-
   /**
    * This method configures the plugin. it is called when a change under "configuration"-page in jenkins is made
    *

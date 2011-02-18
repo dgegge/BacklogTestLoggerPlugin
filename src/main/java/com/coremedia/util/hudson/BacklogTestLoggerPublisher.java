@@ -1,19 +1,20 @@
 package com.coremedia.util.hudson;
 
 
+import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.*;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Publisher;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.types.FileSet;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The publisher creates the results we want from the BacklogTestLogger execution.
@@ -50,12 +51,12 @@ public class BacklogTestLoggerPublisher extends Publisher {
   /**
    * Performes the action. "main"-method equivalent
    *
-   * @param build AbstractBuild
+   * @param build    AbstractBuild
    * @param launcher Launcher
    * @param listener BuildListener
    * @return boolean
    * @throws InterruptedException failed
-   * @throws IOException failed
+   * @throws IOException          failed
    */
   public boolean perform(AbstractBuild<?, ?> build, Launcher launcher,
                          BuildListener listener) throws InterruptedException, IOException {
@@ -77,18 +78,40 @@ public class BacklogTestLoggerPublisher extends Publisher {
       logger.println("[CapsAnalysis] Multiple reports detected.");
     }
     ArrayList<String> filesToParse = new ArrayList<String>();
-    for (String file : files) {
-      FileSet fileSet = new FileSet();
-      File workspace = new File(build.getWorkspace().toURI());
+    FilePath path = build.getWorkspace();
 
-      fileSet.setDir(workspace);
-      fileSet.setIncludes(file.trim());
-      Project antProject = new Project();
-      fileSet.setProject(antProject);
-      String[] tmp_files = fileSet.getDirectoryScanner(antProject).getIncludedFiles();
-      for (String tmp_file : tmp_files) {
-        if (build.getProject().getWorkspace().child(tmp_file).exists()) {
-          filesToParse.add(tmp_file);
+    for (String filePath : files) {
+      List<File> tmp_files = new ArrayList<File>();
+      File directory;
+      File file = new File(filePath);
+      final String XML = "*.xml";
+      if (filePath.endsWith(XML)) {
+        String dir_path = path.getRemote() + File.separator + filePath.substring(0, filePath.length() - (XML.length() + 1));
+        logger.println("Searching for files in: " + dir_path);
+        directory = new File(dir_path);
+
+        if (directory != null) {
+          for (File f : directory.listFiles()) {
+            logger.println("Found file to analyze: " + f.getAbsolutePath());
+            if (f.getAbsolutePath().toLowerCase().endsWith(".xml")) {
+              tmp_files.add(f);
+            } else {
+              logger.println("File has not a .xml-ending");
+            }
+          }
+        } else {
+          logger.println("Directory doesn't exist");
+        }
+
+
+      } else if (file.exists() && file.isFile()) {
+        logger.println("Found file to analyze: " + file.getAbsolutePath());
+        tmp_files.add(file);
+      }
+
+      for (File tmp_file : tmp_files) {
+        if (build.getProject().getWorkspace().child(tmp_file.getAbsolutePath()).exists()) {
+          filesToParse.add(tmp_file.getAbsolutePath());
         } else {
           logger.println("[CapsAnalysis] Impossible to analyse report " + tmp_file + " file not found!");
           build.setResult(Result.UNSTABLE);
@@ -97,7 +120,7 @@ public class BacklogTestLoggerPublisher extends Publisher {
     }
 
     try {
-      build.addAction(new BacklogTestLoggerBuildAction(build, filesToParse,logger));
+      build.addAction(new BacklogTestLoggerBuildAction(build, filesToParse, logger));
 
     } catch (BacklogTestLoggerParseException gpe) {
       logger.println("[CapsAnalysis] generating reports analysis failed!");
@@ -124,6 +147,19 @@ public class BacklogTestLoggerPublisher extends Publisher {
     @Override
     public boolean isApplicable(Class<? extends AbstractProject> jobType) {
       return true;
+    }
+  }
+
+  /**
+   * Class representing a file filter, which only looks for files ending with .xml
+   */
+  private class xmlFilenameFilter implements FilenameFilter {
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean accept(File dir, String name) {
+      return new File(dir, name).isFile() && name.toLowerCase().endsWith(".xml");
     }
   }
 

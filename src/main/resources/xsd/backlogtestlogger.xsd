@@ -32,5 +32,15 @@
     <xs:attribute type="xs:string" name="text" use="required"/>
     <xs:attribute type="xs:string" name="iteration" use="required"/>
     <xs:attribute type="xs:string" name="comment" use="optional"/>
+    <xs:attribute type="testable" name="testable" use="required"/>          
   </xs:complexType>
+
+  <xs:simpleType name="testable">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="automatic"/>
+      <xs:enumeration value="manual"/>
+      <xs:enumeration value="not"/>
+    </xs:restriction>
+  </xs:simpleType>
+
 </xs:schema>
